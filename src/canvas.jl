@@ -17,7 +17,7 @@ function PrintStyle(; bold = false, color = :normal, blink = false, reverse = fa
     printstyled(io, c; ps.style...)
  end
 
- struct Canvas
+struct Canvas
     chars
     pstyles
 end
