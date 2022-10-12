@@ -11,6 +11,7 @@ function PrintStyle(; bold = false, color = :normal, blink = false, reverse = fa
     PrintStyle(style)
  end
 
+ const BLANK_CHAR = ' '
  const DEFAULT_PSTYLE = PrintStyle()
 
  @inline function charprint(io::IO, c::Char, ps::PrintStyle = DEFAULT_PSTYLE)
@@ -20,26 +21,26 @@ function PrintStyle(; bold = false, color = :normal, blink = false, reverse = fa
 struct Canvas
     chars
     pstyles
+    width
+    height
 end
 
 function Canvas(; width, height)
-    Canvas(_emptychars(width, height), _emptypstyles(width, height))
+    Canvas(_empty_chars(width, height), _empty_pstyles(width, height), width, height)
 end
 
 function reset!(canvas)
-    width, height = size(canvas.chars)
-    width = width - 1
-    copyto!(canvas.chars, _emptychars(width, height))
-    fill!(canvas.crayons, Crayon())
+    copyto!(canvas.chars, _empty_chars(canvas.width, canvas.height))
+    copyto!(canvas.pstyles, _empty_pstyles(canvas.width, canvas.height))
     canvas
 end
 
-@inline function _emptychars(width, height)
-    line = vcat(repeat([' '], width), '\n')
+@inline function _empty_chars(width, height)
+    line = vcat(repeat([BLANK_CHAR], width), '\n')
     reshape(repeat(line, height), width + 1, height)
 end
 
-@inline function _emptypstyles(width, height)
+@inline function _empty_pstyles(width, height)
     fill(DEFAULT_PSTYLE, width + 1, height)
 end
 
