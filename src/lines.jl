@@ -7,7 +7,7 @@ struct Line{D<:AbstractDirection,S<:LineStyle}
     pstyle
 end
 
-function Line(x, y, length, ::Type{D}; ::Type{S} = LineStyle(Light, Solid),
+function Line(x, y, length, ::Type{D}; style::Type{S} = LineStyle(Light, Solid),
               pstyle = DEFAULT_PSTYLE) where {D,S}
     from, to = _line_cart_idx(D, x, y, length)
     Line{D,S}(from, to, pstyle)
