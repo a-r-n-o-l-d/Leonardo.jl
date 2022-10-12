@@ -23,7 +23,7 @@ struct Canvas
 end
 
 function Canvas(; width, height)
-    Canvas(_emptychars(width, height), fill(DEFAULT_PSTYLE, width + 1, height))
+    Canvas(_emptychars(width, height), _emptypstyles(width, height))
 end
 
 function reset!(canvas)
@@ -37,6 +37,10 @@ end
 @inline function _emptychars(width, height)
     line = vcat(repeat([' '], width), '\n')
     reshape(repeat(line, height), width + 1, height)
+end
+
+@inline function _emptypstyles(width, height)
+    fill(DEFAULT_PSTYLE, width + 1, height)
 end
 
 function Base.print(io::IO, canvas::Canvas)

@@ -10,8 +10,8 @@ function Box(x, y, width, height; left::Type{LineStyle{L,T1}} = LineStyle(Light,
              right::Type{LineStyle{R,T2}} = left, upper::Type{LineStyle{U,T3}} = right,
              bottom::Type{LineStyle{B,T4}} = upper,
              pstyle = PrintStyle()) where {L,U,R,B,T1,T2,T3,T4}
-    _x, _y, _l = x, y + 1, height - 2
-    lborder = Line(_x, _y, _l, Vertical; style = left, pstyle = pstyle)
+    x_, _y, _l = x, y + 1, height - 2
+    lborder = Line(x_, _y, _l, Vertical; style = left, pstyle = pstyle)
     _x, _y, _l = x + 1, y, width - 2
     uborder = Line(_x, _y, _l, Horizontal; style = upper, pstyle = pstyle)
     _x, _y, _l = x + width - 1, y + 1, height - 2
