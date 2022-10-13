@@ -90,10 +90,9 @@ struct Path
     lines
     corners
     lends
-    #pstyle#inutile
 end
 
-function Path(P1, P2, ::Type{D};
+function Path(P1::Tuple, P2::Tuple, ::Type{D};
         style1::Type{LineStyle{S1,T1}} = LineStyle(Light, Solid),
         style2::Type{LineStyle{S2,T2}} = style1,
         lend1::Type{L1} = NoLineEnd,
@@ -101,6 +100,26 @@ function Path(P1, P2, ::Type{D};
         pstyle = DEFAULT_PSTYLE) where {D,S1,T1,S2,T2,L1,L2}
     lines, corners, lends = _path(P1, P2, style1, style2, D, L1, L2, pstyle)
     Path(lines, corners, lends)
+end
+
+function Path(P::Tuple, length::Int, ::Type{D};
+              style::Type{LineStyle{S,T}} = LineStyle(Light, Solid),
+              lend1::Type{L1} = NoLineEnd,
+              lend2::Type{L2} = NoLineEnd,
+              pstyle = DEFAULT_PSTYLE) where {D<:Vertical,S,T,L1,L2}
+    x1, y1 = P
+    y2 = y1 + length
+    Path(P, (x1, y2), D; style1 = style, lend1 = lend1, lend2 = lend2, pstyle = pstyle)
+end
+
+function Path(P::Tuple, length::Int, ::Type{D};
+            style::Type{LineStyle{S,T}} = LineStyle(Light, Solid),
+            lend1::Type{L1} = NoLineEnd,
+            lend2::Type{L2} = NoLineEnd,
+            pstyle = DEFAULT_PSTYLE) where {D<:Horizontal,S,T,L1,L2}
+    x1, y1 = P
+    x2 = x1 + length
+    Path(P, (x2, y1), D; style1 = style, lend1 = lend1, lend2 = lend2, pstyle = pstyle)
 end
 
 function Leonardo.draw!(canvas::Canvas, path::Path)
@@ -132,13 +151,13 @@ function _path(P1, P2,
     corners = []
     lends = []
     if Δx == 0
-        push!(lines, Line((x1, y1, Δy + 1), Vertical; style = style1, pstyle = pstyle))
+        push!(lines, Line((x1, y1), Δy + 1, Vertical; style = style1, pstyle = pstyle))
         if Δy < 0
             push!(lends, LineEnd((x1, y1), L1, Down, S1))
             push!(lends, LineEnd((x2, y2), L2, Up, S2))
         else
-            push!(lends, LineEnd((x1, y1), L1, Down, S1))
-            push!(lends, LineEnd((x2, y2), L2, Up, S2))
+            push!(lends, LineEnd((x1, y1), L1, Up, S1))
+            push!(lends, LineEnd((x2, y2), L2, Down, S2))
         end
     else
         push!(lines, Line((x1, y1), Δy, Vertical; style = style1, pstyle = pstyle))
