@@ -2,46 +2,56 @@
     Line(x, y, length, D; style = LineStyle(Light, Solid), crayon = Crayon())
 """
 struct Line{D<:AbstractDirection,S<:LineStyle}
-    from
-    to
+    x1
+    y1
+    x2
+    y2
     pstyle
 end
 
 function Line(x, y, length, ::Type{D}; style::Type{S} = LineStyle(Light, Solid),
               pstyle = DEFAULT_PSTYLE) where {D,S}
-    from, to = _line_cart_idx(D, x, y, length)
-    Line{D,S}(from, to, pstyle)
+    x1, y1, x2, y2 = _line_cart_idx(D, x, y, length)
+    Line{D,S}(x1, y1, x2, y2, pstyle)
 end
 
-function _line_cart_idx(::Type{Horizontal}, x, y, length)
-    from = CartesianIndex(x, y)
-    to = from + CartesianIndex(length - 1, 0)
-    from, to
+@inline function _line_cart_idx(::Type{Horizontal}, x, y, length)
+    if length > 0
+        x, y, x + length - 1, y
+    else
+        x + length + 1, y, x , y
+    end
 end
 
 function _line_cart_idx(::Type{Vertical}, x, y, length)
-    from = CartesianIndex(x, y)
     if length > 0
-        to = from + CartesianIndex(0, length - 1)
+        x, y, x, y + length - 1
     else
-        # pour si sens inverse
-        #=
-        to = CartesianIndex(col, row)
-        from = to - CartesianIndex(0, length + 1)
-        =#
-        to = from + CartesianIndex(0, length - 1)
+        x, y + length + 1, x, y
     end
-    from, to
 end
 
 style = LineStyle(Heavy, Solid)
 Line(1, 1, 5, Horizontal; style = style)
 
 function draw!(canvas::Canvas, line::Line{D,S}) where {D,S}
+    #isin(canvas, line.x1, line.y1)
+    #isin(canvas, line.x2, line.y2)
     c = char(D, S)
-    for I in line.from:line.to
-        canvas.chars[I] = c
-        canvas.pstyles[I] = line.pstyle
+    for y in line.y1:line.y2, x in line.x1:line.x2
+        print!(canvas, c, line.pstyle, x, y)
     end
     canvas
 end
+
+#=
+struct Path{S<:LineStyle,L<:AbstractLineEnd}
+    lines
+    corners
+    bchar
+    echar
+    pstyle
+end
+
+Path([(x1,y1), (x2,y2)], ::Type{S}; style::Type{S} = LineStyle(Light, Solid), pstyle = DEFAULT_PSTYLE)
+=#

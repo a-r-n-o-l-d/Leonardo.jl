@@ -1,6 +1,13 @@
+# TODO:
+#  - add bounds checks before drawing to canvas
+#  - remplacer CartesianIndex par Point?
+#  - passer les coord en tuple c est plus lisible
 module Leonardo
 
-export Canvas, Line, Box, SingleLineText
+export NoLine, Light, Heavy, Double, Solid, Dashed1, Dashed2, Dashed3, Half1, Half2,
+       Horizontal, Vertical, LineStyle, Left, Up, Right, Down, BlackArrow, WhiteArrow, Bar,
+       BackRectangle, WhiteRectangle, Lozenge, LargeDot, SmallDot, Canvas, draw!, Line, Box,
+       SingleLineText
 
 include("singletons.jl")
 include("charset.jl")

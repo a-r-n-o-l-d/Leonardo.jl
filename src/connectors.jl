@@ -1,12 +1,13 @@
 struct Connector{L<:AbstractLineSize,U<:AbstractLineSize,R<:AbstractLineSize,
                  D<:AbstractLineSize}
-    at
+    x
+    y
     pstyle
 end
 
 function Connector{L,U,R,D}(x, y; pstyle::PrintStyle = PrintStyle()) where {L,U,R,D}
-    at = CartesianIndex(x, y)
-    Connector{L,U,R,D}(at, pstyle)
+    #at = CartesianIndex(x, y)
+    Connector{L,U,R,D}(x, y, pstyle)
 end
 
 function Connector(x, y, ::Type{L}, ::Type{U}, ::Type{R}, ::Type{D};
@@ -15,8 +16,10 @@ function Connector(x, y, ::Type{L}, ::Type{U}, ::Type{R}, ::Type{D};
 end
 
 function draw!(canvas::Canvas, connector::Connector{L,U,R,D}) where {L,U,R,D}
-    canvas.chars[connector.at] = char(L, U, R, D)
-    canvas.pstyles[connector.at] = connector.pstyle
+    #isin(canvas, connector.x, connector.y)
+    #@inbounds canvas.chars[connector.at] = char(L, U, R, D)
+    #@inbounds canvas.pstyles[connector.at] = connector.pstyle
+    print!(canvas, char(L, U, R, D), connector.pstyle, connector.x, connector.y)
     canvas
 end
 
