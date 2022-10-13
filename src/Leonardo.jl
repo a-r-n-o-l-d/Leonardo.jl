@@ -6,8 +6,8 @@ module Leonardo
 
 export NoLine, Light, Heavy, Double, Solid, Dashed1, Dashed2, Dashed3, Half1, Half2,
        Horizontal, Vertical, LineStyle, Left, Up, Right, Down, BlackArrow, WhiteArrow, Bar,
-       BackRectangle, WhiteRectangle, Lozenge, LargeDot, SmallDot, Canvas, draw!, Line, Box,
-       SingleLineText
+       BackRectangle, WhiteRectangle, Lozenge, LargeDot, SmallDot
+export Canvas, draw!, Line, Box, SingleLineText
 
 include("singletons.jl")
 include("charset.jl")

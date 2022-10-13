@@ -1,4 +1,4 @@
-struct SingleLineText{D<:AbstractDirection}
+struct SingleLineText{D<:AbstractDirection}#pas utile
     x1
     y1
     x2
@@ -7,22 +7,17 @@ struct SingleLineText{D<:AbstractDirection}
     pstyle
 end
 
-function SingleLineText(x, y, text, ::Type{D}; pstyle = PrintStyle()) where D
+function SingleLineText(P, text, ::Type{D}; pstyle = PrintStyle()) where D
     contains(text, '\n') && error(
         "text supplied to `SingleLineText` contains some carriage returns.")
+    x, y = P
     x1, y1, x2, y2 = _line_cart_idx(D, x, y, length(text))
     SingleLineText{D}(x1, y1, x2, y2, text, pstyle)
 end
 
 function draw!(canvas::Canvas, text::SingleLineText)
-    #=for (I, c) in zip(text.from:text.to, text.text)
-        @inbounds canvas.chars[I] = c
-        @inbounds canvas.pstyles[I] = text.pstyle
-    end    =#
-    i = 1
-    for y in text.y1:text.y2, x in text.x1:text.x2
-        print!(canvas, text.text[i], text.pstyle, x, y)
-        i = i + 1
+    for (P, c) in zip(Iterators.product(text.x1:text.x2, text.y1:text.y2), text.text)
+        print!(canvas, c, text.pstyle, P...)
     end
     canvas
 end

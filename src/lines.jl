@@ -9,8 +9,9 @@ struct Line{D<:AbstractDirection,S<:LineStyle}
     pstyle
 end
 
-function Line(x, y, length, ::Type{D}; style::Type{S} = LineStyle(Light, Solid),
+function Line(P, length, ::Type{D}; style::Type{S} = LineStyle(Light, Solid),
               pstyle = DEFAULT_PSTYLE) where {D,S}
+    x, y = P
     x1, y1, x2, y2 = _line_cart_idx(D, x, y, length)
     Line{D,S}(x1, y1, x2, y2, pstyle)
 end
@@ -30,9 +31,6 @@ function _line_cart_idx(::Type{Vertical}, x, y, length)
         x, y + length + 1, x, y
     end
 end
-
-style = LineStyle(Heavy, Solid)
-Line(1, 1, 5, Horizontal; style = style)
 
 function draw!(canvas::Canvas, line::Line{D,S}) where {D,S}
     #isin(canvas, line.x1, line.y1)
