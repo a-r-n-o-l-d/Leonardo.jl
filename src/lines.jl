@@ -71,15 +71,8 @@ function draw!(canvas::Canvas, lend::LineEnd{L,S,O}
     canvas
 end
 
-function draw!(canvas::Canvas, lend::LineEnd{L,S,O}
-        ) where {L<:Bar,S,O}
-    print!(canvas, char(L(S, O)), lend.pstyle, lend.x, lend.y)
-    canvas
-end
-
-function draw!(canvas::Canvas, lend::LineEnd{L,S,O}
-        ) where {L<:Bar,S,O}
-    print!(canvas, char(L(S, O)), lend.pstyle, lend.x, lend.y)
+function draw!(canvas::Canvas, lend::LineEnd{Bar,S,O}) where {S,O}
+    print!(canvas, char(Bar(S, O)), lend.pstyle, lend.x, lend.y)
     canvas
 end
 
@@ -91,4 +84,131 @@ end
 
 function draw!(canvas::Canvas, ::LineEnd{NoLineEnd})
     canvas
+end
+
+struct Path
+    lines
+    corners
+    lends
+    #pstyle#inutile
+end
+
+function Path(P1, P2, ::Type{D};
+        style1::Type{LineStyle{S1,T1}} = LineStyle(Light, Solid),
+        style2::Type{LineStyle{S2,T2}} = style1,
+        lend1::Type{L1} = NoLineEnd,
+        lend2::Type{L2} = NoLineEnd,
+        pstyle = DEFAULT_PSTYLE) where {D,S1,T1,S2,T2,L1,L2}
+    lines, corners, lends = _path(P1, P2, style1, style2, D, L1, L2, pstyle)
+    Path(lines, corners, lends)
+end
+
+function Leonardo.draw!(canvas::Canvas, path::Path)
+    for l in path.lines
+        draw!(canvas, l)
+    end
+    for c in path.corners
+        draw!(canvas, c)
+    end
+    for e in path.lends
+        draw!(canvas, e)
+    end
+    canvas
+end
+
+function _path(P1, P2,
+        style1::Type{LineStyle{S1,T1}},
+        style2::Type{LineStyle{S2,T2}},
+        ::Type{Vertical},
+        ::Type{L1},
+        ::Type{L2},
+        pstyle) where {S1,T1,S2,T2,L1,L2}
+    x1, y1 = P1
+    x2, y2 = P2
+    Δx = x2 - x1
+    Δy = y2 - y1
+    Δy == 0 && error("Impossible to define a Vertical line from ($x1,$y1) to ($x2,$y2).")
+    lines = []
+    corners = []
+    lends = []
+    if Δx == 0
+        push!(lines, Line((x1, y1, Δy + 1), Vertical; style = style1, pstyle = pstyle))
+        if Δy < 0
+            push!(lends, LineEnd((x1, y1), L1, Down, S1))
+            push!(lends, LineEnd((x2, y2), L2, Up, S2))
+        else
+            push!(lends, LineEnd((x1, y1), L1, Down, S1))
+            push!(lends, LineEnd((x2, y2), L2, Up, S2))
+        end
+    else
+        push!(lines, Line((x1, y1), Δy, Vertical; style = style1, pstyle = pstyle))
+        if Δx < 0 && Δy < 0
+            push!(lines, Line((x1 - 1, y2), Δx, Horizontal; style = style2, pstyle = pstyle))
+            push!(corners, UpperRightCorner((x1, y2), S2, S1; pstyle = pstyle))
+            push!(lends, LineEnd((x1, y1), L1, Down, S1))
+            push!(lends, LineEnd((x2, y2), L2, Left, S2))
+        elseif Δx > 0 && Δy > 0
+            push!(lines, Line((x1 + 1, y2), Δx, Horizontal; style = style2, pstyle = pstyle))
+            push!(corners, BottomLeftCorner((x1, y2), S1, S2; pstyle = pstyle))
+            push!(lends, LineEnd((x1, y1), L1, Up, S1))
+            push!(lends, LineEnd((x2, y2), L2, Right, S2))
+        elseif Δx > 0 && Δy < 0
+            push!(lines, Line((x1 + 1, y2), Δx, Horizontal; style = style1, pstyle = pstyle))
+            push!(corners, UpperLeftCorner((x1, y2), S2, S1; pstyle = pstyle))
+            push!(lends, LineEnd((x1, y1), L1, Down, S1))
+            push!(lends, LineEnd((x2, y2), L2, Right, S2))
+        elseif Δx < 0 && Δy > 0
+            push!(lines, Line((x1 - 1, y2), Δx, Horizontal; style = style2, pstyle = pstyle))
+            push!(corners, BottomRightCorner((x1, y2), S1, S2; pstyle = pstyle))
+            push!(lends, LineEnd((x1, y1), L1, Up, S1))
+            push!(lends, LineEnd((x2, y2), L2, Left, S2))
+        end
+    end
+    lines, corners, lends
+end
+
+function _path(P1, P2, style1::Type{LineStyle{S1,T1}}, style2::Type{LineStyle{S2,T2}},
+        ::Type{Horizontal}, ::Type{L1}, ::Type{L2}, pstyle) where {S1,T1,S2,T2,L1,L2}
+    x1, y1 = P1
+    x2, y2 = P2
+    Δx = x2 - x1
+    Δy = y2 - y1
+    Δx == 0 && error("Impossible to define a Horizontal line from ($x1,$y1) to ($x2,$y2).")
+    lines = []
+    corners = []
+    lends = []
+    if Δy == 0
+        push!(lines, Line((x1, y1), Δx + 1, Horizontal; style = style1, pstyle = pstyle))
+        if Δx < 0
+            push!(lends, LineEnd((x1, y1), L1, Right, S1))
+            push!(lends, LineEnd((x2, y2), L2, Left))
+        else
+            push!(lends, LineEnd((x1, y1), L1, Left, S1))
+            push!(lends, LineEnd((x2, y2), L2, Right, S2))
+        end
+    else
+        push!(lines, Line((x1, y1), Δx, Horizontal; style = style1, pstyle = pstyle))
+        if Δx < 0 && Δy < 0
+            push!(lines, Line((x2, y1 - 1), Δy, Vertical; style = style2, pstyle = pstyle))
+            push!(corners, BottomLeftCorner((x2, y1), S2, S1; pstyle = pstyle))
+            push!(lends, LineEnd((x1, y1), L1, Right, S1))
+            push!(lends, LineEnd((x2, y2), L2, Up, S2))
+        elseif Δx > 0 && Δy > 0
+            push!(lines, Line((x2, y1 + 1), Δy, Vertical; style = style2, pstyle = pstyle))
+            push!(corners, UpperRightCorner((x2, y1), S1, S2; pstyle = pstyle))
+            push!(lends, LineEnd((x1, y1), L1, Left, S1))
+            push!(lends, LineEnd((x2, y2), L2, Down, S2))
+        elseif Δx > 0 && Δy < 0
+            push!(lines, Line((x2, y1 - 1), Δy, Vertical; style = style1, pstyle = pstyle))
+            push!(corners, BottomRightCorner((x2, y1), S2, S1; pstyle = pstyle))
+            push!(lends, LineEnd((x1, y1), L1, Left, S1))
+            push!(lends, LineEnd((x2, y2), L2, Up, S2))
+        elseif Δx < 0 && Δy > 0
+            push!(lines, Line((x2, y1 + 1), Δy, Vertical; style = style2, pstyle = pstyle))
+            push!(corners, UpperLeftCorner((x2, y1), S1, S2; pstyle = pstyle))
+            push!(lends, LineEnd((x1, y1), L1, Right, S1))
+            push!(lends, LineEnd((x2, y2), L2, Down, S2))
+        end
+    end
+    lines, corners, lends
 end
