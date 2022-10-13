@@ -53,3 +53,42 @@ end
 
 Path([(x1,y1), (x2,y2)], ::Type{S}; style::Type{S} = LineStyle(Light, Solid), pstyle = DEFAULT_PSTYLE)
 =#
+struct LineEnd{L<:Union{AbstractLineEnd,FreeChar},
+               S<:AbstractLineSize,O<:AbstractOrientation}
+    x
+    y
+    pstyle
+end
+
+function LineEnd(P, ::Type{L}, ::Type{O} = NoOrientation, ::Type{S} = NoLine;
+        pstyle = DEFAULT_PSTYLE) where {L,S,O}
+    LineEnd{L,S,O}(P..., pstyle)
+end
+
+function draw!(canvas::Canvas, lend::LineEnd{L,S,O}
+    ) where {L<:Union{BlackArrow,WhiteArrow},S,O}
+    print!(canvas, char(L(O)), lend.pstyle, lend.x, lend.y)
+    canvas
+end
+
+function draw!(canvas::Canvas, lend::LineEnd{L,S,O}
+        ) where {L<:Bar,S,O}
+    print!(canvas, char(L(S, O)), lend.pstyle, lend.x, lend.y)
+    canvas
+end
+
+function draw!(canvas::Canvas, lend::LineEnd{L,S,O}
+        ) where {L<:Bar,S,O}
+    print!(canvas, char(L(S, O)), lend.pstyle, lend.x, lend.y)
+    canvas
+end
+
+function draw!(canvas::Canvas, lend::LineEnd{L,S,O}
+        ) where {L<:FreeChar,S,O}
+    print!(canvas, char(L), lend.pstyle, lend.x, lend.y)
+    canvas
+end
+
+function draw!(canvas::Canvas, ::LineEnd{NoLineEnd})
+    canvas
+end

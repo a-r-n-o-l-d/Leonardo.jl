@@ -34,6 +34,8 @@ LineStyle(::Type{S}, ::Type{T}) where {S,T} = LineStyle{S,T}
 
 abstract type AbstractOrientation end
 
+struct NoOrientation <: AbstractOrientation end
+
 struct Left <: AbstractOrientation end
 
 struct Up <: AbstractOrientation end
@@ -43,6 +45,8 @@ struct Right <: AbstractOrientation end
 struct Down <: AbstractOrientation end
 
 abstract type AbstractLineEnd end
+
+struct NoLineEnd <: AbstractLineEnd end
 
 struct BlackArrow{O<:AbstractOrientation} <: AbstractLineEnd end
 

@@ -260,7 +260,7 @@
 @inline char(::Type{Bar{Light,Left}}) = char(NoLine, Ligth, Light, Light)
 @inline char(::Type{Bar{Light,Up}}) = char(Light, NoLine, Light, Light)
 @inline char(::Type{Bar{Light,Right}}) = char(Light, Light, NoLine, Light)
-@inline char(::Type{Bar{Light,Down}}) = char(Ligth, Light, Light, NoLine)
+@inline char(::Type{Bar{Light,Down}}) = char(Light, Light, Light, NoLine)
 @inline char(::Type{Bar{Heavy,Left}}) = char(NoLine, Heavy, Heavy, Heavy)
 @inline char(::Type{Bar{Heavy,Up}}) = char(Heavy, NoLine, Heavy, Heavy)
 @inline char(::Type{Bar{Heavy,Right}}) = char(Heavy, Heavy, NoLine, Heavy)
