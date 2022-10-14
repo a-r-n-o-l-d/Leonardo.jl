@@ -1,7 +1,7 @@
 # TODO:
-#  - add bounds checks before drawing to canvas
-#  - remplacer CartesianIndex par Point?
-#  - passer les coord en tuple c est plus lisible
+#  x add bounds checks before drawing to canvas
+#  x remplacer CartesianIndex par Point?
+#  x passer les coord en tuple c est plus lisible
 module Leonardo
 
 export NoLine, Light, Heavy, Double, Solid, Dashed1, Dashed2, Dashed3, Half1, Half2,

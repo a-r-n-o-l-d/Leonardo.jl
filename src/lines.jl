@@ -33,8 +33,6 @@ function _line_cart_idx(::Type{Vertical}, x, y, length)
 end
 
 function draw!(canvas::Canvas, line::Line{D,S}) where {D,S}
-    #isin(canvas, line.x1, line.y1)
-    #isin(canvas, line.x2, line.y2)
     c = char(D, S)
     for y in line.y1:line.y2, x in line.x1:line.x2
         print!(canvas, c, line.pstyle, x, y)
@@ -42,17 +40,6 @@ function draw!(canvas::Canvas, line::Line{D,S}) where {D,S}
     canvas
 end
 
-#=
-struct Path{S<:LineStyle,L<:AbstractLineEnd}
-    lines
-    corners
-    bchar
-    echar
-    pstyle
-end
-
-Path([(x1,y1), (x2,y2)], ::Type{S}; style::Type{S} = LineStyle(Light, Solid), pstyle = DEFAULT_PSTYLE)
-=#
 struct LineEnd{L<:Union{AbstractLineEnd,FreeChar},
                S<:AbstractLineSize,O<:AbstractOrientation}
     x
@@ -122,7 +109,7 @@ function Path(P::Tuple, length::Int, ::Type{D};
     Path(P, (x2, y1), D; style1 = style, lend1 = lend1, lend2 = lend2, pstyle = pstyle)
 end
 
-function Leonardo.draw!(canvas::Canvas, path::Path)
+function draw!(canvas::Canvas, path::Path)
     for l in path.lines
         draw!(canvas, l)
     end
@@ -135,13 +122,8 @@ function Leonardo.draw!(canvas::Canvas, path::Path)
     canvas
 end
 
-function _path(P1, P2,
-        style1::Type{LineStyle{S1,T1}},
-        style2::Type{LineStyle{S2,T2}},
-        ::Type{Vertical},
-        ::Type{L1},
-        ::Type{L2},
-        pstyle) where {S1,T1,S2,T2,L1,L2}
+function _path(P1, P2, style1::Type{LineStyle{S1,T1}}, style2::Type{LineStyle{S2,T2}},
+               ::Type{Vertical}, ::Type{L1}, ::Type{L2}, pstyle) where {S1,T1,S2,T2,L1,L2}
     x1, y1 = P1
     x2, y2 = P2
     Δx = x2 - x1
