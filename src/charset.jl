@@ -257,7 +257,7 @@
 @inline char(::Type{WhiteArrow{Up}}) = '▵'
 @inline char(::Type{WhiteArrow{Right}}) = '▹'
 @inline char(::Type{WhiteArrow{Down}}) = '▿'
-@inline char(::Type{Bar{Light,Left}}) = char(NoLine, Ligth, Light, Light)
+@inline char(::Type{Bar{Light,Left}}) = char(NoLine, Light, Light, Light)
 @inline char(::Type{Bar{Light,Up}}) = char(Light, NoLine, Light, Light)
 @inline char(::Type{Bar{Light,Right}}) = char(Light, Light, NoLine, Light)
 @inline char(::Type{Bar{Light,Down}}) = char(Light, Light, Light, NoLine)
