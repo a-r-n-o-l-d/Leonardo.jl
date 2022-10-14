@@ -24,8 +24,6 @@ function draw!(canvas::Canvas, line::Line{D,S}) where {D,S}
     canvas
 end
 
-
-
 struct LineEnd{L<:Union{AbstractLineEnd,FreeChar},
                S<:AbstractLineSize,O<:AbstractOrientation}
     x
@@ -253,16 +251,16 @@ end
 function _connect(line1::Line{Horizontal,LineStyle{S1,T1}},
     line2::Line{Vertical,LineStyle{S2,T2}}) where {S1,S2,T1,T2}
     # connect at l1.P2, l2.P2
-    if line1.y2 == line2.y2 #+ 1
+    if line1.y2 == line2.y2
         BottomRightCorner((line1.x2, line1.y2), S2, S1; pstyle = line1.pstyle)
     # connect at l1.P2, l2.P1
-    elseif line1.y2 == line2.y1 #- 1
+    elseif line1.y2 == line2.y1
         UpperRightCorner((line1.x2, line1.y2), S1, S2; pstyle = line1.pstyle)
     # connect at l1.P1, l2.P2
-    elseif line1.y1 == line2.y2 #+ 1
+    elseif line1.y1 == line2.y2
         BottomLeftCorner((line1.x1, line1.y1), S2, S1; pstyle = line1.pstyle)
     # connect at l1.P1, l2.P1
-    elseif line1.y1 == line2.y1 #+ 1
+    elseif line1.y1 == line2.y1
         UpperLeftCorner((line1.x1, line1.y1), S1, S2; pstyle = line1.pstyle)
     end
 end
@@ -270,16 +268,16 @@ end
 function _connect(line1::Line{Vertical,LineStyle{S1,T1}},
     line2::Line{Horizontal,LineStyle{S2,T2}}) where {S1,S2,T1,T2}
     # connect at l1.P2, l2.P1
-    if line1.y2 == line2.y1 #- 1
+    if line1.y2 == line2.y1
         BottomLeftCorner((line1.x2, line1.y2), S1, S2; pstyle = line1.pstyle)
     # connect at l1.P1, l2.P1
-    elseif line1.y1 == line2.y1 #+ 1
+    elseif line1.y1 == line2.y1
         UpperLeftCorner((line1.x1, line1.y1), S2, S1; pstyle = line1.pstyle)
     # connect at l1.P2, l2.P2
-    elseif line1.y2 == line2.y2 #- 1
+    elseif line1.y2 == line2.y2
         BottomRightCorner((line1.x2, line1.y2), S1, S2; pstyle = line1.pstyle)
     # connect at l1.P1, l2.P2
-    elseif line1.y1 == line2.y2 #+ 1
+    elseif line1.y1 == line2.y2
         UpperRightCorner((line1.x1, line1.y1), S2, S1; pstyle = line1.pstyle)
     end
 end

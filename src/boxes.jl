@@ -1,4 +1,4 @@
-struct Box#{L<:LineStyle,U<:LineStyle,R<:LineStyle,D<:LineStyle} #pas utile
+struct Box
     lborder
     uborder
     rborder
@@ -25,13 +25,13 @@ function Box(P, width, height; left::Type{LineStyle{L,T1}} = LineStyle(Light, So
     bborder = Line((x, y), l, Horizontal; style = bottom, pstyle = pstyle)
 
     corners = [
-        UpperLeftCorner((xp, yp), U, L; pstyle = pstyle), #UpperLeftCorner{R,D}
-        BottomLeftCorner((xp, yp + height - 1), L, B; pstyle = pstyle), #BottomLeftCorner{U,R}
-        UpperRightCorner((xp + width - 1, yp), U, R; pstyle = pstyle), #UpperRightCorner{L,D}
-        BottomRightCorner((xp + width - 1, yp + height - 1), R, B; pstyle = pstyle) #BottomRightCorner{U,L}
+        UpperLeftCorner((xp, yp), U, L; pstyle = pstyle),
+        BottomLeftCorner((xp, yp + height - 1), L, B; pstyle = pstyle),
+        UpperRightCorner((xp + width - 1, yp), U, R; pstyle = pstyle),
+        BottomRightCorner((xp + width - 1, yp + height - 1), R, B; pstyle = pstyle)
     ]
 
-    Box(lborder, uborder, rborder, bborder, corners) #{left,upper,right,bottom}
+    Box(lborder, uborder, rborder, bborder, corners)
 end
 
 function draw!(canvas::Canvas, box::Box)

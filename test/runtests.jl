@@ -1,6 +1,11 @@
 using Leonardo
 using Test
+using Aqua
 
-@testset "Leonardo.jl" begin
-    # Write your tests here.
+@testset verbose = true "Leonardo.jl" begin
+    @testset verbose = true "Code quality" begin
+        @testset verbose = true "Aqua" begin
+            Aqua.test_all(Leonardo)
+        end
+    end
 end
