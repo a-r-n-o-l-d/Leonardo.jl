@@ -16,22 +16,6 @@ function Line(P, length, ::Type{D}; style::Type{S} = LineStyle(Light, Solid),
     Line{D,S}(x1, y1, x2, y2, pstyle)
 end
 
-@inline function _line_cart_idx(::Type{Horizontal}, x, y, length)
-    if length > 0
-        x, y, x + length - 1, y
-    else
-        x + length + 1, y, x , y
-    end
-end
-
-function _line_cart_idx(::Type{Vertical}, x, y, length)
-    if length > 0
-        x, y, x, y + length - 1
-    else
-        x, y + length + 1, x, y
-    end
-end
-
 function draw!(canvas::Canvas, line::Line{D,S}) where {D,S}
     c = char(D, S)
     for y in line.y1:line.y2, x in line.x1:line.x2
@@ -39,6 +23,8 @@ function draw!(canvas::Canvas, line::Line{D,S}) where {D,S}
     end
     canvas
 end
+
+
 
 struct LineEnd{L<:Union{AbstractLineEnd,FreeChar},
                S<:AbstractLineSize,O<:AbstractOrientation}
@@ -89,6 +75,30 @@ function Path(P1::Tuple, P2::Tuple, ::Type{D};
     Path(lines, corners, lends)
 end
 
+function Path(Ps::Vector, ::Type{D};
+              style::Type{LineStyle{S,T}} = LineStyle(Light, Solid),
+              lend1::Type{L1} = NoLineEnd,
+              lend2::Type{L2} = NoLineEnd,
+              pstyle = DEFAULT_PSTYLE) where {D,S,T,L1,L2}
+    n = length(Ps) - 1
+    lines = []
+    corners = []
+    lends = []
+    for i in 1:n
+        le1 = i == 1 ? L1 : NoLineEnd
+        le2 = i == n ? L2 : NoLineEnd
+        ls, cs, les = _path(Ps[i], Ps[i + 1], style, style, D, le1, le2, pstyle)
+        if 1 < i
+            les[1] = _connect(lines[end], ls[1])
+        end
+        push!(lines, ls...)
+        push!(corners, cs...)
+        push!(lends, les...)
+    end
+
+    Path(lines, corners, lends)
+end
+
 function Path(P::Tuple, length::Int, ::Type{D};
               style::Type{LineStyle{S,T}} = LineStyle(Light, Solid),
               lend1::Type{L1} = NoLineEnd,
@@ -122,18 +132,41 @@ function draw!(canvas::Canvas, path::Path)
     canvas
 end
 
+############################################################################################
+#                                   INTERNAL FUNCTIONS                                     #
+############################################################################################
+
+function _line_cart_idx(::Type{Horizontal}, x, y, length)
+    if length > 0
+        x, y, x + length - 1, y
+    else
+        x + length + 1, y, x , y
+    end
+end
+
+function _line_cart_idx(::Type{Vertical}, x, y, length)
+    if length > 0
+        x, y, x, y + length - 1
+    else
+        x, y + length + 1, x, y
+    end
+end
+
 function _path(P1, P2, style1::Type{LineStyle{S1,T1}}, style2::Type{LineStyle{S2,T2}},
                ::Type{Vertical}, ::Type{L1}, ::Type{L2}, pstyle) where {S1,T1,S2,T2,L1,L2}
     x1, y1 = P1
     x2, y2 = P2
     Δx = x2 - x1
     Δy = y2 - y1
-    Δy == 0 && error("Impossible to define a Vertical line from ($x1,$y1) to ($x2,$y2).")
+    #Δy == 0 && error("Impossible to define a Vertical line from ($x1,$y1) to ($x2,$y2).")
+    if Δy == 0
+        return _path(P1, P2, style1, style2, Horizontal, L1, L2, pstyle)
+    end
     lines = []
     corners = []
     lends = []
     if Δx == 0
-        push!(lines, Line((x1, y1), Δy + 1, Vertical; style = style1, pstyle = pstyle))
+        push!(lines, Line((x1, y1), Δy, Vertical; style = style1, pstyle = pstyle))
         if Δy < 0
             push!(lends, LineEnd((x1, y1), L1, Down, S1))
             push!(lends, LineEnd((x2, y2), L2, Up, S2))
@@ -174,12 +207,15 @@ function _path(P1, P2, style1::Type{LineStyle{S1,T1}}, style2::Type{LineStyle{S2
     x2, y2 = P2
     Δx = x2 - x1
     Δy = y2 - y1
-    Δx == 0 && error("Impossible to define a Horizontal line from ($x1,$y1) to ($x2,$y2).")
+    #Δx == 0 && error("Impossible to define a Horizontal line from ($x1,$y1) to ($x2,$y2).")
+    if Δx == 0
+        return _path(P1, P2, style1, style2, Horizontal, L1, L2, pstyle)
+    end
     lines = []
     corners = []
     lends = []
     if Δy == 0
-        push!(lines, Line((x1, y1), Δx + 1, Horizontal; style = style1, pstyle = pstyle))
+        push!(lines, Line((x1, y1), Δx, Horizontal; style = style1, pstyle = pstyle))
         if Δx < 0
             push!(lends, LineEnd((x1, y1), L1, Right, S1))
             push!(lends, LineEnd((x2, y2), L2, Left))
@@ -212,4 +248,38 @@ function _path(P1, P2, style1::Type{LineStyle{S1,T1}}, style2::Type{LineStyle{S2
         end
     end
     lines, corners, lends
+end
+
+function _connect(line1::Line{Horizontal,LineStyle{S1,T1}},
+    line2::Line{Vertical,LineStyle{S2,T2}}) where {S1,S2,T1,T2}
+    # connect at l1.P2, l2.P2
+    if line1.y2 == line2.y2 #+ 1
+        BottomRightCorner((line1.x2, line1.y2), S2, S1; pstyle = line1.pstyle)
+    # connect at l1.P2, l2.P1
+    elseif line1.y2 == line2.y1 #- 1
+        UpperRightCorner((line1.x2, line1.y2), S1, S2; pstyle = line1.pstyle)
+    # connect at l1.P1, l2.P2
+    elseif line1.y1 == line2.y2 #+ 1
+        BottomLeftCorner((line1.x1, line1.y1), S2, S1; pstyle = line1.pstyle)
+    # connect at l1.P1, l2.P1
+    elseif line1.y1 == line2.y1 #+ 1
+        UpperLeftCorner((line1.x1, line1.y1), S1, S2; pstyle = line1.pstyle)
+    end
+end
+
+function _connect(line1::Line{Vertical,LineStyle{S1,T1}},
+    line2::Line{Horizontal,LineStyle{S2,T2}}) where {S1,S2,T1,T2}
+    # connect at l1.P2, l2.P1
+    if line1.y2 == line2.y1 #- 1
+        BottomLeftCorner((line1.x2, line1.y2), S1, S2; pstyle = line1.pstyle)
+    # connect at l1.P1, l2.P1
+    elseif line1.y1 == line2.y1 #+ 1
+        UpperLeftCorner((line1.x1, line1.y1), S2, S1; pstyle = line1.pstyle)
+    # connect at l1.P2, l2.P2
+    elseif line1.y2 == line2.y2 #- 1
+        BottomRightCorner((line1.x2, line1.y2), S1, S2; pstyle = line1.pstyle)
+    # connect at l1.P1, l2.P2
+    elseif line1.y1 == line2.y2 #+ 1
+        UpperRightCorner((line1.x1, line1.y1), S2, S1; pstyle = line1.pstyle)
+    end
 end
