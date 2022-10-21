@@ -25,10 +25,10 @@ function Box(P, width, height; left::Type{LineStyle{L,T1}} = LineStyle(Light, So
     bborder = Line((x, y), l, Horizontal; style = bottom, pstyle = pstyle)
 
     corners = [
-        UpperLeftCorner((xp, yp), U, L; pstyle = pstyle),
-        BottomLeftCorner((xp, yp + height - 1), L, B; pstyle = pstyle),
-        UpperRightCorner((xp + width - 1, yp), U, R; pstyle = pstyle),
-        BottomRightCorner((xp + width - 1, yp + height - 1), R, B; pstyle = pstyle)
+        upper_left_corner((xp, yp), U, L; pstyle = pstyle),
+        bottom_left_corner((xp, yp + height - 1), L, B; pstyle = pstyle),
+        upper_right_corner((xp + width - 1, yp), U, R; pstyle = pstyle),
+        bottom_right_corner((xp + width - 1, yp + height - 1), R, B; pstyle = pstyle)
     ]
 
     Box(lborder, uborder, rborder, bborder, corners)

@@ -1,26 +1,53 @@
 const BLANK_CHAR = ' '
-const DEFAULT_PSTYLE = PrintStyle()
 
-struct Canvas
-    chars
-    pstyles
-    width
-    height
+struct PrintStyle
+    style#::NamedTuple{(:bold, :color, :blink, :reverse, :hidden, :underline),
+                       #Tuple{Bool, Symbol, Bool, Bool, Bool, Bool}}
 end
 
-function Canvas(; width, height)
-    Canvas(_empty_chars(width, height), _empty_pstyles(width, height), width, height)
+function PrintStyle(; bold = false, color = :normal, blink = false, reverse = false,
+                      hidden = false, underline = false)
+    style = (
+        bold = bold, color = color, blink = blink, reverse = reverse, hidden = hidden,
+        underline = underline
+    )
+    PrintStyle(style)
+end
+
+@inline function charprint(io::IO, c::Char, ps::PrintStyle = DEFAULT_PSTYLE)
+    printstyled(io, c; ps.style...)
+end
+
+const DEFAULT_PSTYLE = PrintStyle() #Crayon() #(bold = false, color = :normal, blink = false, reverse = false, hidden = false, underline = false) # #
+
+struct Canvas
+    chars::Matrix{Char}
+    prstyles::Matrix{PrintStyle}
+    width::Int
+    height::Int
+end
+
+function Canvas(width, height)
+    chars = Matrix{Char}(undef, width + 1, height)
+    chars[1:width,1:height] .= BLANK_CHAR
+    chars[width + 1, 1:height] .= '\n'
+    prstyles = fill(DEFAULT_PSTYLE, width + 1, height)
+    Canvas(chars, prstyles, width, height)
 end
 
 function reset!(canvas)
-    copyto!(canvas.chars, _empty_chars(canvas.width, canvas.height))
-    copyto!(canvas.pstyles, _empty_pstyles(canvas.width, canvas.height))
+    for y in 1:canvas.height, x in 1:canvas.width
+        @inbounds canvas.chars[x,y] = BLANK_CHAR
+        @inbounds canvas.prstyles[x,y] = DEFAULT_PSTYLE
+    end
     canvas
 end
 
 function Base.print(io::IO, canvas::Canvas)
-    for (ch, ps) in zip(canvas.chars, canvas.pstyles)
-        charprint(io, ch, ps)
+    for (ch, ps) in zip(canvas.chars, canvas.prstyles)
+        #charprint(io, ch, ps)
+        #print(io, ps, ch)
+        printstyled(io, ch; ps.style...)
     end
 end
 
@@ -28,35 +55,31 @@ function Base.show(io::IO, canvas::Canvas)
     print(io, canvas)
 end
 
-struct CanvasPoint
-    x
-    y
-end
 
-function print!(canvas::Canvas, char, pstyle, x, y)
-    isin(canvas, x, y)
+function drawchar!(canvas::Canvas, P, char, prstyle) #; kwargs...
+    x, y = P
+    0 < x ≤ canvas.width && 0 < y ≤ canvas.height || error(
+        "Attempting to draw outside the canvas frame.")
     @inbounds canvas.chars[x, y] = char
-    @inbounds canvas.pstyles[x, y] = pstyle
+    @inbounds canvas.prstyles[x, y] = prstyle
 end
 
-function print!(canvas::Canvas, char, pstyle, P)
-    @inbounds canvas.chars[P.x, P.y] = char
-    @inbounds canvas.pstyles[P.x, P.y] = pstyle
-end
+#=function print!(canvas::Canvas, char, x, y; kwargs...) #; kwargs...
+    0 < x ≤ canvas.width && 0 < y ≤ canvas.height || error(
+        "Attempting to draw outside the canvas frame.")
+    @inbounds canvas.chars[x, y] = char
+    @inbounds canvas.pstyles[x, y] = Crayon(; kwargs...)
+end=#
 
-@inline function isin(canvas, x, y)
-     0 < x ≤ canvas.width && 0 < y ≤ canvas.height || error(
-        "Drawing outside Canvas")
-end
-
-@inline function isin(canvas, P)
-    #x, y = I.I
-    0 < P.x ≤ canvas.width && 0 < P.y ≤ canvas.height
-end
+############################################################################################
+#                                   INTERNAL FUNCTIONS                                     #
+############################################################################################
 
 @inline function _empty_chars(width, height)
-    line = vcat(repeat([BLANK_CHAR], width), '\n')
-    reshape(repeat(line, height), width + 1, height)
+    chars = Matrix{Char}(undef, width + 1, height)
+    chars[1:width,1:height] .= BLANK_CHAR
+    chars[width + 1, 1:height] .= '\n'
+    chars
 end
 
 @inline function _empty_pstyles(width, height)

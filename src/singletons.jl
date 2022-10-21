@@ -1,6 +1,6 @@
 abstract type AbstractLineSize end
 
-struct NoLine <: AbstractLineSize end
+struct NoLine <: AbstractLineSize end #<: AbstractLineSize
 
 struct Light <: AbstractLineSize end
 
@@ -10,7 +10,7 @@ struct Double <: AbstractLineSize end
 
 abstract type AbstractLineType end
 
-struct Solid <: AbstractLineType end
+struct Solid <: AbstractLineType end #<: AbstractLineType
 
 struct Dashed1 <: AbstractLineType end
 
@@ -22,52 +22,56 @@ struct Half1 <: AbstractLineType end
 
 struct Half2 <: AbstractLineType end
 
-abstract type AbstractDirection end
-
-struct Horizontal <: AbstractDirection end
-
-struct Vertical <: AbstractDirection end
-
-struct LineStyle{S<:AbstractLineSize,T<:AbstractLineType} end
-
-LineStyle(::Type{S}, ::Type{T}) where {S,T} = LineStyle{S,T}
-
 abstract type AbstractOrientation end
 
-struct NoOrientation <: AbstractOrientation end
+struct Horizontal end #<: AbstractOrientation
 
-struct Left <: AbstractOrientation end
+struct Vertical end
 
-struct Up <: AbstractOrientation end
+#struct LineStyle{S<:AbstractLineSize,T<:AbstractLineType} end
 
-struct Right <: AbstractOrientation end
+#LineStyle(::Type{S}, ::Type{T}) where {S,T} = LineStyle{S,T}
 
-struct Down <: AbstractOrientation end
+#linesize(::Type{LineStyle{S,T}}) where {S,T} = S
 
-abstract type AbstractLineEnd end
+abstract type AbstractDirection end
 
-struct NoLineEnd <: AbstractLineEnd end
+struct NoDirection <: AbstractDirection end #
 
-struct BlackArrow{O<:AbstractOrientation} <: AbstractLineEnd end
+struct Left <: AbstractDirection end
 
-BlackArrow(::Type{O}) where O = BlackArrow{O}
+struct Up <: AbstractDirection end
 
-struct WhiteArrow{O<:AbstractOrientation} <: AbstractLineEnd end
+struct Right <: AbstractDirection end
 
-WhiteArrow(::Type{O}) where O = WhiteArrow{O}
+struct Down <: AbstractDirection end
 
-struct Bar{S<:AbstractLineSize,O<:AbstractOrientation} <: AbstractLineEnd end
+abstract type AbstractEnd end
 
-Bar(::Type{S}, ::Type{O}) where {S,O} = Bar{S,O}
+struct NoEnd end #<: AbstractEnd
 
-abstract type FreeChar end #<:AbstractLineEnd
+abstract type AbstractArrow <: AbstractEnd end
 
-struct BackRectangle <: FreeChar end
+struct BlackArrow <:AbstractArrow end #{O<:AbstractOrientation} <: AbstractEnd
 
-struct WhiteRectangle <: FreeChar end
+#BlackArrow(::Type{O}) where O = BlackArrow{O}
 
-struct Lozenge <: FreeChar end
+struct WhiteArrow <:AbstractArrow end #{O<:AbstractOrientation} <: AbstractEnd
 
-struct LargeDot <: FreeChar end
+#WhiteArrow(::Type{O}) where O = WhiteArrow{O}
 
-struct SmallDot <: FreeChar end
+struct Bar end #{S<:AbstractLineSize,O<:AbstractOrientation} <: AbstractEnd
+
+#Bar(::Type{S}, ::Type{O}) where {S,O} = Bar{S,O}
+
+abstract type AbstractFreeChar end #<:AbstractLineEnd
+
+struct BackRectangle <: AbstractFreeChar end
+
+struct WhiteRectangle <: AbstractFreeChar end
+
+struct Lozenge <: AbstractFreeChar end
+
+struct LargeDot <: AbstractFreeChar end
+
+struct SmallDot <: AbstractFreeChar end
