@@ -7,10 +7,10 @@ function ConnectorStyle(::Type{L}, ::Type{U}, ::Type{R}, ::Type{D}) where {L,U,R
 end
 
 function drawconnector!(canvas, P, ::Type{ConnectorStyle{L,U,R,D}},
-                        prstyle = DEFAULT_PRSTYLE) where {SL,TL,L<:LineStyle{SL,TL},
-                                                          SU,TU,U<:LineStyle{SU,TU},
-                                                          SR,TR,R<:LineStyle{SR,TR},
-                                                          SD,TD,D<:LineStyle{SD,TD}}
+                        prstyle = defstyle(canvas)) where {SL,TL,L<:LineStyle{SL,TL},
+                                                           SU,TU,U<:LineStyle{SU,TU},
+                                                           SR,TR,R<:LineStyle{SR,TR},
+                                                           SD,TD,D<:LineStyle{SD,TD}}
     drawchar!(canvas, P, char(SL, SU, SR, SD), prstyle)
 end
 

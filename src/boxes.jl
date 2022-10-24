@@ -6,7 +6,7 @@ function BoxStyle(left::Type{L} = LineStyle(), up::Type{U} = LineStyle(), ::Type
 end
 
 function drawbox!(canvas, P, width, height, ::Type{BoxStyle{L,U,R,D}} = BoxStyle(),
-                  prstyle = DEFAULT_PRSTYLE) where {L,U,R,D}
+                  prstyle = defstyle(canvas)) where {L,U,R,D}
     x1, y1 = P
     x2, y2 = x1, y1 + height - 1
     x3, y3 = x1 + width - 1, y1
