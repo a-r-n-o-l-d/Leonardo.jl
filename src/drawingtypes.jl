@@ -21,7 +21,6 @@ julia> c = Canvas(10, 1);
 
 julia> drawline!(c, (1,1), 10, Horizontal, LineStyle(Light))
 ──────────
-
 ```
 """
 struct Light <: AbstractLineSize end
@@ -34,7 +33,6 @@ ulia> c = Canvas(10, 1);
 
 julia> drawline!(c, (1,1), 10, Horizontal, LineStyle(Heavy))
 ━━━━━━━━━━
-
 ```
 """
 struct Heavy <: AbstractLineSize end
@@ -47,7 +45,6 @@ julia> c = Canvas(10, 1);
 
 julia> drawline!(c, (1,1), 10, Horizontal, LineStyle(Double))
 ══════════
-
 ```
 """
 struct Double <: AbstractLineSize end
@@ -71,7 +68,6 @@ julia> c = Canvas(10, 1);
 
 julia> drawline!(c, (1,1), 10, Horizontal, LineStyle(Light, Solid))
 ──────────
-
 ```
 """
 struct Solid <: AbstractLineType end
@@ -84,7 +80,6 @@ julia> c = Canvas(10, 1);
 
 julia> drawline!(c, (1,1), 10, Horizontal, LineStyle(Light, Dashed1))
 ┄┄┄┄┄┄┄┄┄┄
-
 ```
 """
 struct Dashed1 <: AbstractLineType end
@@ -97,7 +92,6 @@ julia> c = Canvas(10, 1);
 
 julia> drawline!(c, (1,1), 10, Horizontal, LineStyle(Light, Dashed2))
 ┈┈┈┈┈┈┈┈┈┈
-
 ```
 """
 struct Dashed2 <: AbstractLineType end
@@ -110,7 +104,6 @@ julia> c = Canvas(10, 1);
 
 julia> drawline!(c, (1,1), 10, Horizontal, LineStyle(Light, Dashed3))
 ╌╌╌╌╌╌╌╌╌╌
-
 ```
 """
 struct Dashed3 <: AbstractLineType end
@@ -124,7 +117,6 @@ julia> c = Canvas(10, 1);
 
 julia> drawline!(c, (1,1), 10, Horizontal, LineStyle(Light, Half1))
 ╴╴╴╴╴╴╴╴╴╴
-
 ```
 """
 struct Half1 <: AbstractLineType end
@@ -138,7 +130,6 @@ julia> c = Canvas(10, 1);
 
 julia> drawline!(c, (1,1), 10, Horizontal, LineStyle(Light, Half2))
 ╶╶╶╶╶╶╶╶╶╶
-
 ```
 """
 struct Half2 <: AbstractLineType end
@@ -192,34 +183,103 @@ define the `EndStyle` to draw paths, and to define the `BoxStyle` to draw boxes.
 """
 struct Down <: AbstractDirection end
 
-
+"""
+Abstract type defining an ending character for `EndStyle` and `PathStyle`.
+"""
 abstract type AbstractEnd end
 
-struct NoEnd <: AbstractEnd end #<: AbstractEnd
+"""
+Type used to define an `EndStyle` that will draw a normal line character.
+"""
+struct NoEnd <: AbstractEnd end
 
+"""
+Abstract type defining an arrow head character.
+"""
 abstract type AbstractArrow <: AbstractEnd end
 
-struct BlackArrow <:AbstractArrow end #{O<:AbstractOrientation} <: AbstractEnd
+"""
+Type defining a black arrow head character for an `EndStyle`.
 
-#BlackArrow(::Type{O}) where O = BlackArrow{O}
+```julia
+julia> Leonardo.char(BlackArrow, Left)
+'◂': Unicode U+25C2 (category So: Symbol, other)
+```
+"""
+struct BlackArrow <:AbstractArrow end
 
-struct WhiteArrow <:AbstractArrow end #{O<:AbstractOrientation} <: AbstractEnd
+"""
+Type defining a white arrow head character for an `EndStyle`.
 
-#WhiteArrow(::Type{O}) where O = WhiteArrow{O}
+```julia
+julia> Leonardo.char(WhiteArrow, Left)
+'◃': Unicode U+25C3 (category So: Symbol, other)
+```
+"""
+struct WhiteArrow <:AbstractArrow end
 
-struct Bar <: AbstractEnd end #{S<:AbstractLineSize,O<:AbstractOrientation} <: AbstractEnd
+"""
+Type defining a bar character for an `EndStyle`.
 
-#Bar(::Type{S}, ::Type{O}) where {S,O} = Bar{S,O}
+```julia
+julia> Leonardo.char(Bar, Left, Heavy)
+'┣': Unicode U+2523 (category So: Symbol, other)
+```
+"""
+struct Bar <: AbstractEnd end
 
+"""
+Abstract type defining a free character, i.e. a character without any surrounding
+informations (no line size, no direction).
+"""
+abstract type AbstractFreeChar end
 
-abstract type AbstractFreeChar end #<:AbstractLineEnd
+"""
+Type defining a black rectangle character.
 
+```julia
+julia> Leonardo.char(BlackRectangle)
+'▮': Unicode U+25AE (category So: Symbol, other)
+```
+"""
 struct BlackRectangle <: AbstractFreeChar end
 
+"""
+Type defining a white rectangle character.
+
+```julia
+julia> Leonardo.char(WhiteRectangle)
+'▯': Unicode U+25AF (category So: Symbol, other)
+```
+"""
 struct WhiteRectangle <: AbstractFreeChar end
 
+"""
+Type defining a lozenge character.
+
+```julia
+julia> Leonardo.char(Lozenge)
+'◊': Unicode U+25CA (category So: Symbol, other)
+```
+"""
 struct Lozenge <: AbstractFreeChar end
 
+"""
+Type defining a large dot character.
+
+```julia
+julia> Leonardo.char(LargeDot)
+'•': Unicode U+2022 (category Po: Punctuation, other)
+```
+"""
 struct LargeDot <: AbstractFreeChar end
 
+"""
+Type defining a small dot character.
+
+```julia
+julia> Leonardo.char(SmallDot)
+'∙': Unicode U+2219 (category Sm: Symbol, math)
+```
+"""
 struct SmallDot <: AbstractFreeChar end

@@ -1,3 +1,6 @@
+# To do:
+# - drawing path between two connected boxes
+
 module Leonardo
 
 export NoLine, Light, Heavy, Double, Solid, Dashed1, Dashed2, Dashed3, Half1, Half2,
