@@ -141,6 +141,7 @@ end
 #                                   INTERNAL FUNCTIONS                                     #
 ############################################################################################
 
+#=
 setarg!(args, ::Type{Left}, sym) = args[2] = sym
 
 setarg!(args, ::Type{Up}, sym) = args[3] = sym
@@ -153,7 +154,7 @@ function defcstyle()
     nl = :(LineStyle(NoLine))
     :(ConnectorStyle($nl, $nl, $nl, $nl))
 end
-
+=#
 #=
 const UpperLeftCorner{R,D} = Connector{NoLine,NoLine,R,D} where {R,D}
 
