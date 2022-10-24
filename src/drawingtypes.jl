@@ -143,25 +143,53 @@ julia> drawline!(c, (1,1), 10, Horizontal, LineStyle(Light, Half2))
 """
 struct Half2 <: AbstractLineType end
 
+"""
+Type defining a line with a horizontal orientation. See [`drawline!`](@ref drawline!) or
+[`drawpath!`](@ref drawpath!) for usage.
+"""
+struct Horizontal end
 
-
-
-struct Horizontal end #<: AbstractOrientation #abstract type AbstractOrientation end
-
+"""
+Type defining a line with a vertical orientation. See [`drawline!`](@ref drawline!) or
+[`drawpath!`](@ref drawpath!) for usage.
+"""
 struct Vertical end
 
 
-
+"""
+Abstract type defining a direction, used to define the surroundings of a `ConnectorStyle`,
+to define the `EndStyle` to draw paths, and to define the `BoxStyle` to draw boxes.
+"""
 abstract type AbstractDirection end
 
-struct NoDirection <: AbstractDirection end #
+"""
+Type defining no specific direction, only used by `EndStyle` for mutiple dispatch
+convenience.
+"""
+struct NoDirection <: AbstractDirection end
 
+"""
+Type defining a left direction, used to define the surroundings of a `ConnectorStyle`, to
+define the `EndStyle` to draw paths, and to define the `BoxStyle` to draw boxes.
+"""
 struct Left <: AbstractDirection end
 
+"""
+Type defining an up direction, used to define the surroundings of a `ConnectorStyle`, to
+define the `EndStyle` to draw paths, and to define the `BoxStyle` to draw boxes.
+"""
 struct Up <: AbstractDirection end
 
+"""
+Type defining a right direction, used to define the surroundings of a `ConnectorStyle`, to
+define the `EndStyle` to draw paths, and to define the `BoxStyle` to draw boxes.
+"""
 struct Right <: AbstractDirection end
 
+"""
+Type defining a down direction, used to define the surroundings of a `ConnectorStyle`, to
+define the `EndStyle` to draw paths, and to define the `BoxStyle` to draw boxes.
+"""
 struct Down <: AbstractDirection end
 
 
