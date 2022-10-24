@@ -2,9 +2,6 @@
 
 julia_version = "1.8.1"
 manifest_format = "2.0"
-project_hash = "8977124cac9b649691f357b7a4e450a011a3c2bb"
+project_hash = "f6dd4230b36847a6d40a3eea7d2682365388770e"
 
-[[deps.Crayons]]
-git-tree-sha1 = "249fe38abf76d48563e2f4556bebd215aa317e15"
-uuid = "a8cc5b0e-0ffa-5ad4-8c14-923d3ee1735f"
-version = "4.1.1"
+[deps]

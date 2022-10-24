@@ -15,7 +15,7 @@ const LENDS = (Bar, ARROWS..., FREECHARS...)
 
 const LDIRS = (Left, Up, Right, Down)
 
-const CANVAS = Canvas(80, 10)
+const CANVAS = Canvas(80, 20)
 
 @testset verbose = true "Leonardo.jl" begin
     @testset verbose = true "Code quality" begin

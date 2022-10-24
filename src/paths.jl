@@ -1,12 +1,3 @@
-# a ajouter dans charset
-#char(::Type{Light}, ::Type{NoLine}, ::Type{Light}, ::Type{NoLine}) = char(Horizontal, Light, Solid)
-#char(::Type{Heavy}, ::Type{NoLine}, ::Type{Heavy}, ::Type{NoLine}) = char(Horizontal, Heavy, Solid)
-#char(::Type{Double}, ::Type{NoLine}, ::Type{Double}, ::Type{NoLine}) = char(Horizontal, Double, Solid)
-
-#char(::Type{NoLine}, ::Type{Light}, ::Type{NoLine}, ::Type{Light}) = char(Vertical, Light, Solid)
-#char(::Type{NoLine}, ::Type{Heavy}, ::Type{NoLine}, ::Type{Heavy}) = char(Vertical, Heavy, Solid)
-#char(::Type{NoLine}, ::Type{Double}, ::Type{NoLine}, ::Type{Double}) = char(Vertical, Double, Solid)
-
 """
     EndStyle([EndType], [DirectionType], [LineStyleType = LineStyle(LightSolid)])
 """
@@ -19,12 +10,6 @@ EndStyle(::Type{E}, ::Type{D}) where {E<:AbstractArrow,D} = EndStyle(E, D, LineS
 EndStyle(::Type{D}, ::Type{L}) where {D<:AbstractDirection,L} = EndStyle(NoEnd, D, L)
 
 EndStyle(::Type{C}) where C<:AbstractFreeChar = EndStyle(C, NoDirection, LineStyle())
-
-#EndStyle() = EndStyle(NoEnd, NoDirection, LineStyle())
-
-#function drawend!(canvas, P, estyle, prstyle = DEFAULT_PSTYLE)
-#    _drawend!(canvas, P, estyle, prstyle)
-#end
 
 function drawend!(canvas, P, ::Type{EndStyle{NoEnd,D,L}},
                   prstyle = DEFAULT_PSTYLE) where {D,S,T,L<:LineStyle{S,T}}
@@ -69,11 +54,6 @@ function PathStyle(::Type{E1}, ::Type{E2}) where {E1,E2}
 end
 
 PathStyle() = PathStyle(LineStyle(), LineStyle(), NoEnd, NoEnd)
-
-#function drawpath!(canvas, P1::Tuple, P2::Tuple, lori, pstyle, prstyle = DEFAULT_PSTYLE)
-#    _drawpath!(canvas, P1, P2, lori, pstyle, prstyle)
-#    canvas
-#end
 
 function drawpath!(canvas, P1::Tuple, P2::Tuple, ::Type{Vertical},
                    pstyle::Type{PathStyle{L1,L2,E1,E2}},
@@ -221,7 +201,6 @@ function drawpath!(canvas, P::Tuple, length::Int, lori::Type{Horizontal},
     drawpath!(canvas, P, (x2, y1), lori, pstyle, prstyle)
 end
 
-#drawpath!(c, [(1, 1), (5,5), (8,10), (12, 6)], Vertical, PathStyle())
 function drawpath!(canvas, Ps::Vector, lori::Type{O}, pstyle::Type{PathStyle{L1,L2,E1,E2}},
                    prstyle = DEFAULT_PSTYLE) where {O,L1,L2,E1,E2}
     if length(Ps) < 2
@@ -259,18 +238,6 @@ _dir2ori(::Type{Right}) = Horizontal
 
 _dir2ori(::Type{Down}) = Vertical
 
-#drawpath!(c, [(1, 1), (5,5), (8,10), (12, 6)], Vertical, PathStyle(LineStyle(Half2), LineStyle(Heavy), BlackArrow, Bar))
-#drawpath!(c, reverse([(1, 1), (5,5), (8,10), (12, 6)]), Vertical, PathStyle(LineStyle(Half2), LineStyle(Heavy), BlackArrow, Bar))
-#drawpath!(c, [(1, 1), (5,5), (8,5), (12, 6)], Vertical, PathStyle(LineStyle(Half2), LineStyle(Heavy), BlackArrow, Bar))
-#drawpath!(c, reverse([(1, 1), (5,5), (8,5), (12, 6)]), Vertical, PathStyle(LineStyle(Half2), LineStyle(Heavy), BlackArrow, Bar))
-#drawpath!(c, [(1, 1), (1,5), (8,10), (12, 6)], Vertical, PathStyle(LineStyle(Half2), LineStyle(Heavy), BlackArrow, Bar))
-#drawpath!(c, [(10, 10), (10,5), (1,5)], Vertical, PathStyle(LineStyle(Half2), LineStyle(Heavy), BlackArrow, Bar))
-#drawpath!(c, [(10, 10), (10,5), (1,5)], Vertical, PathStyle(LineStyle(Half2), LineStyle(Heavy), BlackArrow, Bar))
-#drawpath!(c, [(10, 10), (10,5), (20,5)], Vertical, PathStyle(LineStyle(Half2), LineStyle(Heavy), BlackArrow, Bar))
-#char(::Type{Light}, ::Type{NoLine}, ::Type{Light}, ::Type{NoLine}) = char(Horizontal, Light, Solid)
-#char(::Type{Heavy}, ::Type{NoLine}, ::Type{Heavy}, ::Type{NoLine}) = char(Horizontal, Heavy, Solid)
-#char(::Type{Double}, ::Type{NoLine}, ::Type{Double}, ::Type{NoLine}) = char(Horizontal, Double, Solid)
-
 function _connect!(canvas, P1, P2, P3, ::Type{Vertical}, lstyle1, lstyle2, prstyle)
     x1, _ = P1
     x2, y2 = P2
@@ -282,7 +249,7 @@ function _connect!(canvas, P1, P2, P3, ::Type{Vertical}, lstyle1, lstyle2, prsty
         elseif y3 > y2
             conn = biconnector(Down, lstyle1, Right, lstyle2)
             drawconnector!(canvas, P2, conn, prstyle)
-        else #Δy == 0 connection horizontale
+        else
             conn = biconnector(Left, lstyle1, Right, lstyle2)
             drawconnector!(canvas, P2, conn, prstyle)
         end
@@ -293,11 +260,11 @@ function _connect!(canvas, P1, P2, P3, ::Type{Vertical}, lstyle1, lstyle2, prsty
         elseif y3 > y2
             conn = biconnector(Down, lstyle1, Left, lstyle2)
             drawconnector!(canvas, P2, conn, prstyle)
-        else #Δy == 0 connection horizontale
+        else
             conn = biconnector(Left, lstyle1, Right, lstyle2)
             drawconnector!(canvas, P2, conn, prstyle)
         end
-    else #x2 == x1 connection verticale
+    else
         if y3 < y2
             conn = biconnector(Down, lstyle1, Up, lstyle2)
             drawconnector!(canvas, P2, conn, prstyle)

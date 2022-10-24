@@ -1,10 +1,3 @@
-#=
-ToDo
-- essayer de supprimer PrintStyle
-- definitions du style drawline!(canvas, P, length, lori, lstyle = LineStyle(); kwargs...)
-=#
-
-
 struct LineStyle{S,T} end
 
 LineStyle(::Type{S}, ::Type{T}) where {S,T} = LineStyle{S,T}

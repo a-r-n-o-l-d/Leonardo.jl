@@ -51,24 +51,6 @@ for p in paths
     ltype1, ltype2 = rand(LTYPES), rand(LTYPES)
     lend1, lend2 = rand(LENDS), rand(LENDS)
     pstyle = PathStyle(LineStyle(lsize1, ltype1), LineStyle(lsize2, ltype2), lend1, lend2)
-    @test_call drawpath!(c, p..., pstyle)
-    @test_opt drawpath!(c, p..., pstyle)
+    @test_call drawpath!(CANVAS, p..., pstyle)
+    @test_opt drawpath!(CANVAS, p..., pstyle)
 end
-
-#=
-drawpath!(c, (1,1), (5,1), Vertical, PathStyle(LineStyle(Half2), BlackArrow, Bar))
-drawpath!(c, (1,5), (1,1), Vertical, PathStyle(LineStyle(Half2), BlackArrow, Bar))
-drawpath!(c, (1,1), (1,5), Vertical, PathStyle(LineStyle(Half2), BlackArrow, Bar))
-drawpath!(c, (5,5), (1,1), Vertical, PathStyle(LineStyle(Half2), BlackArrow, Bar))
-drawpath!(c, (1,1), (5,5), Vertical, PathStyle(LineStyle(Half2), BlackArrow, Bar))
-drawpath!(c, (1,5), (5,1), Vertical, PathStyle(LineStyle(Half2), BlackArrow, Bar))
-drawpath!(c, (5,1), (1,5), Vertical, PathStyle(LineStyle(Half2), LineStyle(Heavy, Half2), BlackArrow, Bar))
-
-drawpath!(c, (1,1), (1,5), Horizontal, PathStyle(LineStyle(Half2), BlackArrow, Bar))
-drawpath!(c, (5,1), (1,1), Horizontal, PathStyle(LineStyle(Half2), BlackArrow, Bar))
-drawpath!(c, (1,1), (5,1), Horizontal, PathStyle(LineStyle(Half2), BlackArrow, Bar))
-drawpath!(c, (5,5), (1,1), Horizontal, PathStyle(LineStyle(Half2), LineStyle(Heavy), BlackArrow, Bar))
-drawpath!(c, (1,1), (5,5), Horizontal, PathStyle(LineStyle(Half2), LineStyle(Heavy), BlackArrow, Bar))
-drawpath!(c, (1,5), (5,1), Horizontal, PathStyle(LineStyle(Half2), LineStyle(Heavy), BlackArrow, Bar))
-drawpath!(c, (5,1), (1,5), Horizontal, PathStyle(LineStyle(Half2), LineStyle(Heavy), BlackArrow, Bar))
-=#
