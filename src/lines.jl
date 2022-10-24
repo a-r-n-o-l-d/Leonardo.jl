@@ -15,7 +15,8 @@ LineStyle(::Type{S}) where S<:AbstractLineSize = LineStyle(S, Solid)
 
 LineStyle(::Type{T}) where T<:AbstractLineType = LineStyle(Light, T)
 
-function drawline!(canvas, P, length, ::Type{O}, ::Type{LineStyle{S,T}} = LineStyle(), prstyle = DEFAULT_PSTYLE) where {O,S,T}
+function drawline!(canvas, P, length, ::Type{O}, ::Type{LineStyle{S,T}} = LineStyle(),
+                   prstyle = DEFAULT_PSTYLE) where {O,S,T}
     xr, yr = _line_cart_idx(O, P, length)
     c = char(O, S, T)
     for y in yr, x in xr
@@ -49,42 +50,3 @@ function _line_cart_idx(::Type{Vertical}, P, length)
         x:x, (y + length + 1):y
     end
 end
-
-#=function _connect(line1::Line{Horizontal},
-                  line2::Line{Vertical}, lsize1, lsize2)
-    # connect at l1.P2, l2.P2
-    if line1.y2 == line2.y2
-        return bottom_right_corner((line1.x2, line1.y2), lsize2, lsize1; pstyle = line1.pstyle)
-    # connect at l1.P2, l2.P1
-    elseif line1.y2 == line2.y1
-        return upper_right_corner((line1.x2, line1.y2), lsize1, lsize2; pstyle = line1.pstyle)
-    # connect at l1.P1, l2.P2
-    elseif line1.y1 == line2.y2
-        return bottom_left_corner((line1.x1, line1.y1), lsize2, lsize1; pstyle = line1.pstyle)
-    # connect at l1.P1, l2.P1
-    elseif line1.y1 == line2.y1
-        return upper_left_corner((line1.x1, line1.y1), lsize1, lsize2; pstyle = line1.pstyle)
-    else
-        error()
-    end
-end
-
-function _connect(line1::Line{Vertical},
-                  line2::Line{Horizontal}, lsize1, lsize2) #where {S1,S2,T1,T2}
-    # connect at l1.P2, l2.P1
-    if line1.y2 == line2.y1
-        return bottom_left_corner((line1.x2, line1.y2), lsize1, lsize2; pstyle = line1.pstyle)
-    # connect at l1.P1, l2.P1
-    elseif line1.y1 == line2.y1
-        return upper_left_corner((line1.x1, line1.y1), lsize2, lsize1; pstyle = line1.pstyle)
-    # connect at l1.P2, l2.P2
-    elseif line1.y2 == line2.y2
-        return bottom_right_corner((line1.x2, line1.y2), lsize1, lsize2; pstyle = line1.pstyle)
-    # connect at l1.P1, l2.P2
-    elseif line1.y1 == line2.y2
-        return upper_right_corner((line1.x1, line1.y1), lsize2, lsize1; pstyle = line1.pstyle)
-    else
-        error()
-    end
-end
-=#

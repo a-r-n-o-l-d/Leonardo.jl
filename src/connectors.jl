@@ -14,24 +14,24 @@ function drawconnector!(canvas, P, ::Type{ConnectorStyle{L,U,R,D}}, #::Type{Conn
     drawchar!(canvas, P, char(SL, SU, SR, SD), prstyle)
 end
 
-_setarg!(args, ::Type{Left}, sym) = args[2] = sym
+setarg!(args, ::Type{Left}, sym) = args[2] = sym
 
-_setarg!(args, ::Type{Up}, sym) = args[3] = sym
+setarg!(args, ::Type{Up}, sym) = args[3] = sym
 
-_setarg!(args, ::Type{Right}, sym) = args[4] = sym
+setarg!(args, ::Type{Right}, sym) = args[4] = sym
 
-_setarg!(args, ::Type{Down}, sym) = args[5] = sym
+setarg!(args, ::Type{Down}, sym) = args[5] = sym
 
-function _defcstyle()
+function defcstyle()
     nl = :(LineStyle(NoLine))
     :(ConnectorStyle($nl, $nl, $nl, $nl))
 end
 
 for ldir1 in (Left, Up, Right, Down), ldir2 in (Left, Up, Right, Down)
     if ldir1 != ldir2
-        cons = _defcstyle()
-        _setarg!(cons.args, ldir1, :(L1))
-        _setarg!(cons.args, ldir2, :(L2))
+        cons = defcstyle()
+        setarg!(cons.args, ldir1, :(L1))
+        setarg!(cons.args, ldir2, :(L2))
         @eval begin
             function biconnector(::Type{$ldir1}, ::Type{L1}, ::Type{$ldir2},
                                  ::Type{L2}) where {L1,L2}
@@ -93,17 +93,18 @@ function vline(::Type{L1}, ::Type{L2}) where {L1,L2}
 end
 =#
 
+#=
 struct CornerStyle{UD,LR,L1,L2} end
 
 CornerStyle(::Type{UD}, ::Type{LR}, ::Type{L1}, ::Type{L2}) where {UD,LR,L1,L2} = CornerStyle{UD,LR,L1,L2}
 
 CornerStyle(::Type{UD}, ::Type{LR}) where {UD,LR} = CornerStyle(UD, LR, LineStyle(), LineStyle())
-
+=#
 
 #function drawcorner!(canvas, P, cstyle, prstyle = DEFAULT_PSTYLE)
 #    _drawcorner!(canvas, P, cstyle, prstyle)
 #end
-
+#=
 # Upper left corner
 function drawcorner!(canvas, P, ::Type{CornerStyle{Up,Left,L1,L2}}, prstyle = DEFAULT_PSTYLE
                      ) where {S1,T1,S2,T2,L1<:LineStyle{S1,T1},L2<:LineStyle{S2,T2}}
@@ -135,58 +136,23 @@ function drawcorner!(canvas, P, ::Type{CornerStyle{Down,Right,L1,L2}}, prstyle =
     drawchar!(canvas, P, c, prstyle)
     canvas
 end
-
+=#
 ############################################################################################
 #                                   INTERNAL FUNCTIONS                                     #
 ############################################################################################
 
-_setarg!(args, ::Type{Left}, sym) = args[2] = sym
+setarg!(args, ::Type{Left}, sym) = args[2] = sym
 
-_setarg!(args, ::Type{Up}, sym) = args[3] = sym
+setarg!(args, ::Type{Up}, sym) = args[3] = sym
 
-_setarg!(args, ::Type{Right}, sym) = args[4] = sym
+setarg!(args, ::Type{Right}, sym) = args[4] = sym
 
-_setarg!(args, ::Type{Down}, sym) = args[5] = sym
+setarg!(args, ::Type{Down}, sym) = args[5] = sym
 
-function _defcstyle()
+function defcstyle()
     nl = :(LineStyle(NoLine))
     :(ConnectorStyle($nl, $nl, $nl, $nl))
 end
-
-# Upper left corner
-function _drawcorner!(canvas, P, ::Type{CornerStyle{Up,Left,L1,L2}}, prstyle
-                     ) where {S1,T1,S2,T2,L1<:LineStyle{S1,T1},L2<:LineStyle{S2,T2}}
-    c = char(NoLine, NoLine, S1, S2) #NoLine, NoLine, right, down
-    drawchar!(canvas, P, c, prstyle)
-    canvas
-end
-
-# Upper right corner
-function _drawcorner!(canvas, P, ::Type{CornerStyle{Up,Right,L1,L2}}, prstyle
-                     ) where {S1,T1,S2,T2,L1<:LineStyle{S1,T1},L2<:LineStyle{S2,T2}}
-    c = char(S1, NoLine, NoLine, S2) #left, NoLine, NoLine, down
-    drawchar!(canvas, P, c, prstyle)
-    canvas
-end
-
-# Bottom left corner
-function _drawcorner!(canvas, P, ::Type{CornerStyle{Down,Left,L1,L2}}, prstyle
-                     ) where {S1,T1,S2,T2,L1<:LineStyle{S1,T1},L2<:LineStyle{S2,T2}}
-    c = char(NoLine, S1, S2, NoLine) #NoLine, up, right, NoLine
-    drawchar!(canvas, P, c, prstyle)
-    canvas
-end
-
-# Bottom right corner
-function _drawcorner!(canvas, P, ::Type{CornerStyle{Down,Right,L1,L2}}, prstyle
-                     ) where {S1,T1,S2,T2,L1<:LineStyle{S1,T1},L2<:LineStyle{S2,T2}}
-    c = char(S1, S2, NoLine, NoLine) #left, up, NoLine, NoLine
-    drawchar!(canvas, P, c, prstyle)
-    canvas
-end
-
-
-
 
 #=
 const UpperLeftCorner{R,D} = Connector{NoLine,NoLine,R,D} where {R,D}

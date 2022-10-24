@@ -1,11 +1,11 @@
 # a ajouter dans charset
-char(::Type{Light}, ::Type{NoLine}, ::Type{Light}, ::Type{NoLine}) = char(Horizontal, Light, Solid)
-char(::Type{Heavy}, ::Type{NoLine}, ::Type{Heavy}, ::Type{NoLine}) = char(Horizontal, Heavy, Solid)
-char(::Type{Double}, ::Type{NoLine}, ::Type{Double}, ::Type{NoLine}) = char(Horizontal, Double, Solid)
+#char(::Type{Light}, ::Type{NoLine}, ::Type{Light}, ::Type{NoLine}) = char(Horizontal, Light, Solid)
+#char(::Type{Heavy}, ::Type{NoLine}, ::Type{Heavy}, ::Type{NoLine}) = char(Horizontal, Heavy, Solid)
+#char(::Type{Double}, ::Type{NoLine}, ::Type{Double}, ::Type{NoLine}) = char(Horizontal, Double, Solid)
 
-char(::Type{NoLine}, ::Type{Light}, ::Type{NoLine}, ::Type{Light}) = char(Vertical, Light, Solid)
-char(::Type{NoLine}, ::Type{Heavy}, ::Type{NoLine}, ::Type{Heavy}) = char(Vertical, Heavy, Solid)
-char(::Type{NoLine}, ::Type{Double}, ::Type{NoLine}, ::Type{Double}) = char(Vertical, Double, Solid)
+#char(::Type{NoLine}, ::Type{Light}, ::Type{NoLine}, ::Type{Light}) = char(Vertical, Light, Solid)
+#char(::Type{NoLine}, ::Type{Heavy}, ::Type{NoLine}, ::Type{Heavy}) = char(Vertical, Heavy, Solid)
+#char(::Type{NoLine}, ::Type{Double}, ::Type{NoLine}, ::Type{Double}) = char(Vertical, Double, Solid)
 
 """
     EndStyle([EndType], [DirectionType], [LineStyleType = LineStyle(LightSolid)])
@@ -26,25 +26,29 @@ EndStyle(::Type{C}) where C<:AbstractFreeChar = EndStyle(C, NoDirection, LineSty
 #    _drawend!(canvas, P, estyle, prstyle)
 #end
 
-function drawend!(canvas, P, ::Type{EndStyle{NoEnd,D,L}}, prstyle = DEFAULT_PSTYLE) where {D,S,T,L<:LineStyle{S,T}}
+function drawend!(canvas, P, ::Type{EndStyle{NoEnd,D,L}},
+                  prstyle = DEFAULT_PSTYLE) where {D,S,T,L<:LineStyle{S,T}}
     c = char(_dir2ori(D), S, T)
     drawchar!(canvas, P, c, prstyle)
     canvas
 end
 
-function drawend!(canvas, P, ::Type{EndStyle{Bar,D,L}}, prstyle = DEFAULT_PSTYLE) where {D,S,T,L<:LineStyle{S,T}}
+function drawend!(canvas, P, ::Type{EndStyle{Bar,D,L}},
+                  prstyle = DEFAULT_PSTYLE) where {D,S,T,L<:LineStyle{S,T}}
     c = char(Bar, D, S)
     drawchar!(canvas, P, c, prstyle)
     canvas
 end
 
-function drawend!(canvas, P, ::Type{EndStyle{E,D,L}}, prstyle = DEFAULT_PSTYLE) where {E<:AbstractArrow,D,L}
+function drawend!(canvas, P, ::Type{EndStyle{E,D,L}},
+                  prstyle = DEFAULT_PSTYLE) where {E<:AbstractArrow,D,L}
     c = char(E, D)
     drawchar!(canvas, P, c, prstyle)
     canvas
 end
 
-function drawend!(canvas, P, ::Type{EndStyle{E,D,L}}, prstyle = DEFAULT_PSTYLE) where {E<:AbstractFreeChar,D,L}
+function drawend!(canvas, P, ::Type{EndStyle{E,D,L}},
+                  prstyle = DEFAULT_PSTYLE) where {E<:AbstractFreeChar,D,L}
     c = char(E)
     drawchar!(canvas, P, c, prstyle)
     canvas
@@ -72,7 +76,8 @@ PathStyle() = PathStyle(LineStyle(), LineStyle(), NoEnd, NoEnd)
 #end
 
 function drawpath!(canvas, P1::Tuple, P2::Tuple, ::Type{Vertical},
-                   pstyle::Type{PathStyle{L1,L2,E1,E2}}, prstyle = DEFAULT_PSTYLE) where {L1,L2,E1,E2}
+                   pstyle::Type{PathStyle{L1,L2,E1,E2}},
+                   prstyle = DEFAULT_PSTYLE) where {L1,L2,E1,E2}
     x1, y1 = P1
     x2, y2 = P2
     Δx = x2 - x1
@@ -136,7 +141,8 @@ function drawpath!(canvas, P1::Tuple, P2::Tuple, ::Type{Vertical},
     canvas
 end
 
-function drawpath!(canvas, P1::Tuple, P2::Tuple, ::Type{Horizontal}, pstyle::Type{PathStyle{L1,L2,E1,E2}},
+function drawpath!(canvas, P1::Tuple, P2::Tuple, ::Type{Horizontal},
+                   pstyle::Type{PathStyle{L1,L2,E1,E2}},
                    prstyle = DEFAULT_PSTYLE) where {L1,L2,E1,E2}
     x1, y1 = P1
     x2, y2 = P2
@@ -201,13 +207,15 @@ function drawpath!(canvas, P1::Tuple, P2::Tuple, ::Type{Horizontal}, pstyle::Typ
     canvas
 end
 
-function drawpath!(canvas, P::Tuple, length::Int, lori::Type{Vertical}, pstyle, prstyle = DEFAULT_PSTYLE)
+function drawpath!(canvas, P::Tuple, length::Int, lori::Type{Vertical},
+                   pstyle, prstyle = DEFAULT_PSTYLE)
     x1, y1 = P
     y2 = y1 + length
     drawpath!(canvas, P, (x1, y2), lori, pstyle, prstyle)
 end
 
-function drawpath!(canvas, P::Tuple, length::Int, lori::Type{Horizontal}, pstyle, prstyle = DEFAULT_PSTYLE)
+function drawpath!(canvas, P::Tuple, length::Int, lori::Type{Horizontal},
+                   pstyle, prstyle = DEFAULT_PSTYLE)
     x1, y1 = P
     x2 = x1 + length
     drawpath!(canvas, P, (x2, y1), lori, pstyle, prstyle)
