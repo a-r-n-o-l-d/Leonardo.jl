@@ -32,10 +32,8 @@ end
 function _line_cart_idx(::Type{Horizontal}, P, length)
     x, y = P
     if length > 0
-        #x, y, x + length - 1, y
         x:(x + length - 1), y:y
     else
-        #x + length + 1, y, x , y
         (x + length + 1):x, y:y
     end
 end
@@ -43,10 +41,8 @@ end
 function _line_cart_idx(::Type{Vertical}, P, length)
     x, y = P
     if length > 0
-        #x, y, x, y + length - 1
         x:x, y:(y + length - 1)
     else
-        #x, y + length + 1, x, y
         x:x, (y + length + 1):y
     end
 end

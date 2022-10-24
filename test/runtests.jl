@@ -9,7 +9,7 @@ const LTYPES = (Dashed1, Dashed2, Dashed3, Half1, Half2)
 
 const ARROWS = (BlackArrow, WhiteArrow)
 
-const FREECHARS = (BackRectangle, WhiteRectangle, Lozenge, LargeDot, SmallDot)
+const FREECHARS = (BlackRectangle, WhiteRectangle, Lozenge, LargeDot, SmallDot)
 
 const LENDS = (Bar, ARROWS..., FREECHARS...)
 
@@ -34,6 +34,9 @@ const CANVAS = Canvas(80, 10)
     end
     @testset verbose = true "connectors" begin
         include("connectors.jl")
+    end
+    @testset verbose = true "boxes" begin
+        include("boxes.jl")
     end
     @testset verbose = true "paths" begin
         include("paths.jl")

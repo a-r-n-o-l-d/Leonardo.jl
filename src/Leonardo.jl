@@ -1,21 +1,16 @@
 # TODO:
-#  x add bounds checks before drawing to canvas
-#  x remplacer CartesianIndex par Point?
-#  x passer les coord en tuple c est plus lisible
 # mettre les singletons dan lines.jl
 module Leonardo
 
-using Crayons
-
 export NoLine, Light, Heavy, Double, Solid, Dashed1, Dashed2, Dashed3, Half1, Half2,
-       Horizontal, Vertical, LineStyle, NoDirection, Left, Up, Right, Down, NoEnd, BlackArrow, WhiteArrow, Bar,
-       BackRectangle, WhiteRectangle, Lozenge, LargeDot, SmallDot
-export PrintStyle, Canvas, reset!, drawchar!#, Connector#, Line, LineEnd, Path#, Box, SingleLineText
-export LineStyle, drawline!, ConnectorStyle, biconnector, drawconnector!, EndStyle, drawend!,  PathStyle, drawpath!, BoxStyle, drawbox! #CornerStyle, drawcorner!,
+       Horizontal, Vertical, LineStyle, NoDirection, Left, Up, Right, Down, NoEnd,
+       BlackArrow, WhiteArrow, Bar, BlackRectangle, WhiteRectangle, Lozenge, LargeDot,
+       SmallDot, PrintStyle, Canvas, reset!, drawchar!, LineStyle, drawline!,
+       ConnectorStyle, biconnector, drawconnector!, EndStyle, drawend!, PathStyle,
+       drawpath!, BoxStyle, drawbox!
 
-include("singletons.jl")
+include("drawingtypes.jl")
 include("charset.jl")
-include("printstyle.jl")
 include("canvas.jl")
 include("lines.jl")
 include("connectors.jl")

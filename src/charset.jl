@@ -297,7 +297,7 @@
 @inline char(::Type{Bar}, ::Type{Up}, ::Type{Double}) = char(Double, NoLine, Double, Double)
 @inline char(::Type{Bar}, ::Type{Right}, ::Type{Double}) = char(Double, Double, NoLine, Double)
 @inline char(::Type{Bar}, ::Type{Down}, ::Type{Double}) = char(Double, Double, Double, NoLine)
-@inline char(::Type{BackRectangle}) = '▮'
+@inline char(::Type{BlackRectangle}) = '▮'
 @inline char(::Type{WhiteRectangle}) = '▯'
 @inline char(::Type{Lozenge}) = '◊'
 @inline char(::Type{LargeDot}) = '•'

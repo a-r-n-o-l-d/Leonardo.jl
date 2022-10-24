@@ -64,9 +64,10 @@ struct Bar end #{S<:AbstractLineSize,O<:AbstractOrientation} <: AbstractEnd
 
 #Bar(::Type{S}, ::Type{O}) where {S,O} = Bar{S,O}
 
+
 abstract type AbstractFreeChar end #<:AbstractLineEnd
 
-struct BackRectangle <: AbstractFreeChar end
+struct BlackRectangle <: AbstractFreeChar end
 
 struct WhiteRectangle <: AbstractFreeChar end
 

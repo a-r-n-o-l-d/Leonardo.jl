@@ -1,8 +1,7 @@
 const BLANK_CHAR = ' '
 
 struct PrintStyle
-    style#::NamedTuple{(:bold, :color, :blink, :reverse, :hidden, :underline),
-                       #Tuple{Bool, Symbol, Bool, Bool, Bool, Bool}}
+    style
 end
 
 function PrintStyle(; bold = false, color = :normal, blink = false, reverse = false,
@@ -18,7 +17,7 @@ end
     printstyled(io, c; ps.style...)
 end
 
-const DEFAULT_PSTYLE = PrintStyle() #Crayon() #(bold = false, color = :normal, blink = false, reverse = false, hidden = false, underline = false) # #
+const DEFAULT_PSTYLE = PrintStyle()
 
 struct Canvas
     chars::Matrix{Char}
@@ -45,8 +44,6 @@ end
 
 function Base.print(io::IO, canvas::Canvas)
     for (ch, ps) in zip(canvas.chars, canvas.prstyles)
-        #charprint(io, ch, ps)
-        #print(io, ps, ch)
         printstyled(io, ch; ps.style...)
     end
 end
@@ -55,21 +52,13 @@ function Base.show(io::IO, canvas::Canvas)
     print(io, canvas)
 end
 
-
-function drawchar!(canvas::Canvas, P, char, prstyle) #; kwargs...
+function drawchar!(canvas::Canvas, P, char, prstyle)
     x, y = P
-    0 < x ≤ canvas.width && 0 < y ≤ canvas.height || error(
-        "Attempting to draw outside the canvas frame.")
-    @inbounds canvas.chars[x, y] = char
-    @inbounds canvas.prstyles[x, y] = prstyle
+    if 0 < x ≤ canvas.width && 0 < y ≤ canvas.height #|| error("Attempting to draw outside the canvas frame.")
+        @inbounds canvas.chars[x, y] = char
+        @inbounds canvas.prstyles[x, y] = prstyle
+    end
 end
-
-#=function print!(canvas::Canvas, char, x, y; kwargs...) #; kwargs...
-    0 < x ≤ canvas.width && 0 < y ≤ canvas.height || error(
-        "Attempting to draw outside the canvas frame.")
-    @inbounds canvas.chars[x, y] = char
-    @inbounds canvas.pstyles[x, y] = Crayon(; kwargs...)
-end=#
 
 ############################################################################################
 #                                   INTERNAL FUNCTIONS                                     #
