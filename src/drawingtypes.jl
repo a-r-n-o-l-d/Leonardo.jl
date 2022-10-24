@@ -16,7 +16,7 @@ struct NoLine <: AbstractLineSize end
 """
 Type defining a light sized line.
 
-```julia
+```julia-repl
 julia> c = Canvas(10, 1);
 
 julia> drawline!(c, (1,1), 10, Horizontal, LineStyle(Light))
@@ -28,7 +28,7 @@ struct Light <: AbstractLineSize end
 """
 Type defining a heavy sized line.
 
-```julia
+```julia-repl
 ulia> c = Canvas(10, 1);
 
 julia> drawline!(c, (1,1), 10, Horizontal, LineStyle(Heavy))
@@ -40,7 +40,7 @@ struct Heavy <: AbstractLineSize end
 """
 Type defining a double sized line.
 
-```julia
+```julia-repl
 julia> c = Canvas(10, 1);
 
 julia> drawline!(c, (1,1), 10, Horizontal, LineStyle(Double))
@@ -63,7 +63,7 @@ abstract type AbstractLineType end
 """
 Type defining a solid line.
 
-```julia
+```julia-repl
 julia> c = Canvas(10, 1);
 
 julia> drawline!(c, (1,1), 10, Horizontal, LineStyle(Light, Solid))
@@ -75,7 +75,7 @@ struct Solid <: AbstractLineType end
 """
 Type defining a dashed line.
 
-```julia
+```julia-repl
 julia> c = Canvas(10, 1);
 
 julia> drawline!(c, (1,1), 10, Horizontal, LineStyle(Light, Dashed1))
@@ -87,7 +87,7 @@ struct Dashed1 <: AbstractLineType end
 """
 Type defining a dashed line.
 
-```julia
+```julia-repl
 julia> c = Canvas(10, 1);
 
 julia> drawline!(c, (1,1), 10, Horizontal, LineStyle(Light, Dashed2))
@@ -99,7 +99,7 @@ struct Dashed2 <: AbstractLineType end
 """
 Type defining a dashed line.
 
-```julia
+```julia-repl
 julia> c = Canvas(10, 1);
 
 julia> drawline!(c, (1,1), 10, Horizontal, LineStyle(Light, Dashed3))
@@ -112,7 +112,7 @@ struct Dashed3 <: AbstractLineType end
 Type defining a half line type at the left for horizontal lines, or at the top for vertical
 lines.
 
-```julia
+```julia-repl
 julia> c = Canvas(10, 1);
 
 julia> drawline!(c, (1,1), 10, Horizontal, LineStyle(Light, Half1))
@@ -125,7 +125,7 @@ struct Half1 <: AbstractLineType end
 Type defining a half line type at right left for horizontal lines, or at the bottom for
 vertical lines.
 
-```julia
+```julia-repl
 julia> c = Canvas(10, 1);
 
 julia> drawline!(c, (1,1), 10, Horizontal, LineStyle(Light, Half2))
@@ -201,7 +201,7 @@ abstract type AbstractArrow <: AbstractEnd end
 """
 Type defining a black arrow head character for an `EndStyle`.
 
-```julia
+```julia-repl
 julia> Leonardo.char(BlackArrow, Left)
 '◂': Unicode U+25C2 (category So: Symbol, other)
 ```
@@ -211,7 +211,7 @@ struct BlackArrow <:AbstractArrow end
 """
 Type defining a white arrow head character for an `EndStyle`.
 
-```julia
+```julia-repl
 julia> Leonardo.char(WhiteArrow, Left)
 '◃': Unicode U+25C3 (category So: Symbol, other)
 ```
@@ -221,7 +221,7 @@ struct WhiteArrow <:AbstractArrow end
 """
 Type defining a bar character for an `EndStyle`.
 
-```julia
+```julia-repl
 julia> Leonardo.char(Bar, Left, Heavy)
 '┣': Unicode U+2523 (category So: Symbol, other)
 ```
@@ -237,7 +237,7 @@ abstract type AbstractFreeChar end
 """
 Type defining a black rectangle character.
 
-```julia
+```julia-repl
 julia> Leonardo.char(BlackRectangle)
 '▮': Unicode U+25AE (category So: Symbol, other)
 ```
@@ -247,7 +247,7 @@ struct BlackRectangle <: AbstractFreeChar end
 """
 Type defining a white rectangle character.
 
-```julia
+```julia-repl
 julia> Leonardo.char(WhiteRectangle)
 '▯': Unicode U+25AF (category So: Symbol, other)
 ```
@@ -257,7 +257,7 @@ struct WhiteRectangle <: AbstractFreeChar end
 """
 Type defining a lozenge character.
 
-```julia
+```julia-repl
 julia> Leonardo.char(Lozenge)
 '◊': Unicode U+25CA (category So: Symbol, other)
 ```
@@ -267,7 +267,7 @@ struct Lozenge <: AbstractFreeChar end
 """
 Type defining a large dot character.
 
-```julia
+```julia-repl
 julia> Leonardo.char(LargeDot)
 '•': Unicode U+2022 (category Po: Punctuation, other)
 ```
@@ -277,7 +277,7 @@ struct LargeDot <: AbstractFreeChar end
 """
 Type defining a small dot character.
 
-```julia
+```julia-repl
 julia> Leonardo.char(SmallDot)
 '∙': Unicode U+2219 (category Sm: Symbol, math)
 ```

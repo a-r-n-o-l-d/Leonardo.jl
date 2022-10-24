@@ -9,7 +9,7 @@ LineStyle(::Type{S}) where S<:AbstractLineSize = LineStyle(S, Solid)
 LineStyle(::Type{T}) where T<:AbstractLineType = LineStyle(Light, T)
 
 function drawline!(canvas, P, length, ::Type{O}, ::Type{LineStyle{S,T}} = LineStyle(),
-                   prstyle = DEFAULT_PSTYLE) where {O,S,T}
+                   prstyle = DEFAULT_PRSTYLE) where {O,S,T}
     xr, yr = _line_cart_idx(O, P, length)
     c = char(O, S, T)
     for y in yr, x in xr

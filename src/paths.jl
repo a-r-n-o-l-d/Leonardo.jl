@@ -12,28 +12,28 @@ EndStyle(::Type{D}, ::Type{L}) where {D<:AbstractDirection,L} = EndStyle(NoEnd, 
 EndStyle(::Type{C}) where C<:AbstractFreeChar = EndStyle(C, NoDirection, LineStyle())
 
 function drawend!(canvas, P, ::Type{EndStyle{NoEnd,D,L}},
-                  prstyle = DEFAULT_PSTYLE) where {D,S,T,L<:LineStyle{S,T}}
+                  prstyle = DEFAULT_PRSTYLE) where {D,S,T,L<:LineStyle{S,T}}
     c = char(_dir2ori(D), S, T)
     drawchar!(canvas, P, c, prstyle)
     canvas
 end
 
 function drawend!(canvas, P, ::Type{EndStyle{Bar,D,L}},
-                  prstyle = DEFAULT_PSTYLE) where {D,S,T,L<:LineStyle{S,T}}
+                  prstyle = DEFAULT_PRSTYLE) where {D,S,T,L<:LineStyle{S,T}}
     c = char(Bar, D, S)
     drawchar!(canvas, P, c, prstyle)
     canvas
 end
 
 function drawend!(canvas, P, ::Type{EndStyle{E,D,L}},
-                  prstyle = DEFAULT_PSTYLE) where {E<:AbstractArrow,D,L}
+                  prstyle = DEFAULT_PRSTYLE) where {E<:AbstractArrow,D,L}
     c = char(E, D)
     drawchar!(canvas, P, c, prstyle)
     canvas
 end
 
 function drawend!(canvas, P, ::Type{EndStyle{E,D,L}},
-                  prstyle = DEFAULT_PSTYLE) where {E<:AbstractFreeChar,D,L}
+                  prstyle = DEFAULT_PRSTYLE) where {E<:AbstractFreeChar,D,L}
     c = char(E)
     drawchar!(canvas, P, c, prstyle)
     canvas
@@ -57,7 +57,7 @@ PathStyle() = PathStyle(LineStyle(), LineStyle(), NoEnd, NoEnd)
 
 function drawpath!(canvas, P1::Tuple, P2::Tuple, ::Type{Vertical},
                    pstyle::Type{PathStyle{L1,L2,E1,E2}},
-                   prstyle = DEFAULT_PSTYLE) where {L1,L2,E1,E2}
+                   prstyle = DEFAULT_PRSTYLE) where {L1,L2,E1,E2}
     x1, y1 = P1
     x2, y2 = P2
     Δx = x2 - x1
@@ -74,7 +74,7 @@ function drawpath!(canvas, P1::Tuple, P2::Tuple, ::Type{Vertical},
             drawend!(canvas, P1, EndStyle(E1, Down, L1), prstyle)
             drawend!(canvas, P2, EndStyle(E2, Up, L2), prstyle)
             conn = biconnector(Down, L1, Up, L2)
-            drawconnector!(canvas, (x1, y2), conn, prstyle)
+            drawconnector!(canvas, (x1, yi), conn, prstyle)
         else
             l1 = (Δy - 2) ÷ 2
             l2 = (Δy - 2) - l1
@@ -84,9 +84,8 @@ function drawpath!(canvas, P1::Tuple, P2::Tuple, ::Type{Vertical},
             drawend!(canvas, P1, EndStyle(E1, Up, L1), prstyle)
             drawend!(canvas, P2, EndStyle(E2, Down, L2), prstyle)
             conn = biconnector(Up, L1, Down, L2)
-            drawconnector!(canvas, (x1, y2), conn, prstyle)
+            drawconnector!(canvas, (x1, yi), conn, prstyle)
         end
-        drawconnector!(canvas, (x1, yi), conn, prstyle)
     else
         if Δx < 0 && Δy < 0
             drawline!(canvas, (x1, y1 - 1), Δy + 1, Vertical, L1, prstyle)
@@ -123,7 +122,7 @@ end
 
 function drawpath!(canvas, P1::Tuple, P2::Tuple, ::Type{Horizontal},
                    pstyle::Type{PathStyle{L1,L2,E1,E2}},
-                   prstyle = DEFAULT_PSTYLE) where {L1,L2,E1,E2}
+                   prstyle = DEFAULT_PRSTYLE) where {L1,L2,E1,E2}
     x1, y1 = P1
     x2, y2 = P2
     Δx = x2 - x1
@@ -140,7 +139,7 @@ function drawpath!(canvas, P1::Tuple, P2::Tuple, ::Type{Horizontal},
             drawend!(canvas, P1, EndStyle(E1, Right, L1), prstyle)
             drawend!(canvas, P2, EndStyle(E2, Left, L2), prstyle)
             conn = biconnector(Right, L1, Left, L2)
-            drawconnector!(canvas, (x2, y1), conn, prstyle)
+            drawconnector!(canvas, (xi, y1), conn, prstyle)
         else
             l1 = (Δx - 2) ÷ 2
             l2 = (Δx - 2) - l1
@@ -150,9 +149,8 @@ function drawpath!(canvas, P1::Tuple, P2::Tuple, ::Type{Horizontal},
             drawend!(canvas, P1, EndStyle(E1, Left, L1), prstyle)
             drawend!(canvas, P2, EndStyle(E2, Right, L2), prstyle)
             conn = biconnector(Left, L1, Right, L2)
-            drawconnector!(canvas, (x2, y1), conn, prstyle)
+            drawconnector!(canvas, (xi, y1), conn, prstyle)
         end
-        drawconnector!(canvas, (xi, y1), conn, prstyle)
     else
         if Δx < 0 && Δy < 0
             drawline!(canvas, (x1 - 1, y1), Δx + 1, Horizontal, L1, prstyle)
@@ -188,21 +186,21 @@ function drawpath!(canvas, P1::Tuple, P2::Tuple, ::Type{Horizontal},
 end
 
 function drawpath!(canvas, P::Tuple, length::Int, lori::Type{Vertical},
-                   pstyle, prstyle = DEFAULT_PSTYLE)
+                   pstyle, prstyle = DEFAULT_PRSTYLE)
     x1, y1 = P
     y2 = y1 + length
     drawpath!(canvas, P, (x1, y2), lori, pstyle, prstyle)
 end
 
 function drawpath!(canvas, P::Tuple, length::Int, lori::Type{Horizontal},
-                   pstyle, prstyle = DEFAULT_PSTYLE)
+                   pstyle, prstyle = DEFAULT_PRSTYLE)
     x1, y1 = P
     x2 = x1 + length
     drawpath!(canvas, P, (x2, y1), lori, pstyle, prstyle)
 end
 
 function drawpath!(canvas, Ps::Vector, lori::Type{O}, pstyle::Type{PathStyle{L1,L2,E1,E2}},
-                   prstyle = DEFAULT_PSTYLE) where {O,L1,L2,E1,E2}
+                   prstyle = DEFAULT_PRSTYLE) where {O,L1,L2,E1,E2}
     if length(Ps) < 2
         error()
     elseif length(Ps) == 2
