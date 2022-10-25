@@ -23,22 +23,32 @@ const CANVAS = Canvas(80, 20)
             Aqua.test_all(Leonardo)
         end
     end
+
     @testset verbose = true "charset" begin
         include("charset.jl")
     end
+
     @testset verbose = true "canvas" begin
         include("canvas.jl")
     end
+
     @testset verbose = true "lines" begin
         include("lines.jl")
     end
+
     @testset verbose = true "connectors" begin
         include("connectors.jl")
     end
+
     @testset verbose = true "boxes" begin
         include("boxes.jl")
     end
+
     @testset verbose = true "paths" begin
         include("paths.jl")
+    end
+
+    @testset verbose = true "texts" begin
+        include("texts.jl")
     end
 end
