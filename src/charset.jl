@@ -1,3 +1,4 @@
+const BLANK_CHAR = ' '
 @inline char(::Type{Horizontal}, ::Type{Light}, ::Type{Solid}) = '─'
 @inline char(::Type{Horizontal}, ::Type{Light}, ::Type{Dashed1}) = '┄'
 @inline char(::Type{Horizontal}, ::Type{Light}, ::Type{Dashed2}) = '┈'

@@ -1,5 +1,3 @@
-const BLANK_CHAR = ' '
-
 """
     PrintStyle(; kwargs...)
 
@@ -25,8 +23,6 @@ function PrintStyle(; bold = false, color = :normal, blink = false, reverse = fa
     )
     PrintStyle(style)
 end
-
-const DEFAULT_PRSTYLE = PrintStyle()
 
 """
     Canvas(width, height; [bgchar = ' '], [defstyle = PrintStyle()])
