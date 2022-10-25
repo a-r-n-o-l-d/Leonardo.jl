@@ -331,33 +331,3 @@ function _connect!(canvas, P1, P2, P3, ::Type{Horizontal}, lstyle1, lstyle2, prs
         end
     end
 end
-
-#= For visual check
-function test()
-    reset!(c);
-    P1 = (rand(1:c.width), rand(1:c.height))
-    P2 = (rand(1:c.width), rand(1:c.height))
-    P3 = (rand(1:c.width), rand(1:c.height))
-    P4 = (rand(1:c.width), rand(1:c.height))
-    println("$P1 $P2 $P3, $P4")
-    drawpath!(c, [P1, P2, P3, P4], Vertical, PathStyle(LineStyle(Dashed1), LineStyle(Heavy), Bar, BlackArrow))
-end
-
-function test()
-    reset!(c);
-    P1 = (rand(1:c.width), rand(1:c.height))
-    P2 = (rand(1:c.width), rand(1:c.height))
-    println("$P1 $P2")
-    drawpath!(c, [P1, P2], Vertical, PathStyle(LineStyle(Half2), LineStyle(Heavy), Bar, BlackArrow))
-end
-
-function test()
-    reset!(c);
-    P1 = (rand(1:c.width), rand(1:c.height))
-    P2 = (rand(1:c.width), rand(1:c.height))
-    P3 = (rand(1:c.width), rand(1:c.height))
-    P4 = (rand(1:c.width), rand(1:c.height))
-    println("$P1 $P2 $P3, $P4")
-    drawpath!(c, [P1, P2, P3, P4], Horizontal, PathStyle(LineStyle(Dashed1), LineStyle(Heavy), Bar, BlackArrow))
-end
-=#

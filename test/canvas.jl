@@ -1,12 +1,5 @@
-using Leonardo: drawchar!, DEFAULT_PRSTYLE
-
 @test_call PrintStyle(; color = :red)
 @test_opt PrintStyle(; color = :red)
-
-#p = PrintStyle(; color = :red)
-#@test_call Leonardo.charprint(stdout, 'a', p)
-#@test_opt Leonardo.charprint(stdout, 'a', p)
-#@test_opt printstyled(stdout, 'a')
 
 @test_call Canvas(80, 20)
 @test_opt Canvas(80, 20)

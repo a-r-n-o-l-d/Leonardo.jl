@@ -9,7 +9,7 @@ end
 
 function SingleLineText(P, text, ::Type{D}; pstyle = PrintStyle()) where D
     contains(text, '\n') && error(
-        "text supplied to `SingleLineText` contains some carriage returns.")
+        "text supplied to `SingleLineText` contains some carriage returns.") #replace(text, '\n', '\U240D')
     x, y = P
     x1, y1, x2, y2 = _line_cart_idx(D, x, y, length(text))
     SingleLineText{D}(x1, y1, x2, y2, text, pstyle)

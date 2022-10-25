@@ -1,14 +1,14 @@
 # To do:
 # - drawing path between two connected boxes
-
+# - box with header
 module Leonardo
 
 export NoLine, Light, Heavy, Double, Solid, Dashed1, Dashed2, Dashed3, Half1, Half2,
        Horizontal, Vertical, LineStyle, NoDirection, Left, Up, Right, Down, NoEnd,
        BlackArrow, WhiteArrow, Bar, BlackRectangle, WhiteRectangle, Lozenge, LargeDot,
        SmallDot, PrintStyle, Canvas, reset!, drawchar!, fill!, LineStyle, drawline!,
-       ConnectorStyle, biconnector, drawconnector!, EndStyle, drawend!, PathStyle,
-       drawpath!, BoxStyle, drawbox!
+       ConnectorStyle, drawconnector!, biconnector, triconnector, quadriconnector, EndStyle,
+       drawend!, PathStyle, drawpath!, BoxStyle, drawbox!, HBoxStyle, drawhbox!
 
 include("drawingtypes.jl")
 include("charset.jl")

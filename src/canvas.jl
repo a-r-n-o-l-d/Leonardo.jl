@@ -42,11 +42,12 @@ const DEFAULT_PRSTYLE = PrintStyle()
 #drawchar!(c, (1,20), 'Y', PrintStyle())
 #drawchar!(c, (80,1), 'X', PrintStyle())
 """
-    Canvas(width, height)
+    Canvas(width, height; [bgchar = ' '], [defstyle = PrintStyle()])
 
 Define a drawing area of size `width`x`height`, where width (resp. height) is the number of
-charcters along the X (resp. Y) axis. The origin of coordinate system is the upper left
-character:
+charcters along the X (resp. Y) axis. `bgchar` is the background character by default it is
+a space. `defstyle` is the default `PrintStyle` used to print this `Canvas`.
+The origin of coordinate system is the upper left character:
 ```julia-repl
 ┌─────────────────────────────────────────────────────────────────────────────▸X
 │∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙
@@ -165,4 +166,16 @@ end
 
 @inline function _empty_pstyles(width, height)
     fill(DEFAULT_PRSTYLE, width + 1, height)
+end
+
+function _canvas_doc()
+    c = Canvas(80, 20)
+    fill!(c, (2,2), 77, 17, SmallDot)
+    pstyle = PathStyle(NoEnd, BlackArrow)
+    drawpath!(c, (1,1), 78, Horizontal, pstyle)
+    drawpath!(c, (1,1), 18, Vertical, pstyle)
+    bc = biconnector(Down, LineStyle(), Right, LineStyle())
+    drawconnector!(c, (1,1), bc)
+    drawchar!(c, (1,20), 'Y', PrintStyle())
+    drawchar!(c, (80,1), 'X', PrintStyle())
 end
