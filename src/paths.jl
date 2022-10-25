@@ -223,7 +223,17 @@ function drawpath!(canvas, Ps::Vector, lori::Type{O}, pstyle::Type{PathStyle{L1,
     end
     canvas
 end
+#=
+function drawpath!(canvas, P1, width1, height1, ::Type{B1}, ::Type{D1},
+    P2, width2, height2, ::Type{B2}, ::Type{D2}, pstyle) where {B1,D1,B2,D2}
 
+end
+
+function _boxpath(P, width, height, ::Type{B}, ::Type{Left}) where {L,U,R,D,B<:BoxStyle{L,U,R,D}}
+    x, y = P
+
+end
+=#
 ############################################################################################
 #                                   INTERNAL FUNCTIONS                                     #
 ############################################################################################
