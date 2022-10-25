@@ -26,21 +26,8 @@ function PrintStyle(; bold = false, color = :normal, blink = false, reverse = fa
     PrintStyle(style)
 end
 
-#@inline function charprint(io::IO, c::Char, ps::PrintStyle = DEFAULT_PSTYLE)
-#    printstyled(io, c; ps.style...)
-#end
-
 const DEFAULT_PRSTYLE = PrintStyle()
 
-#c = Canvas(80, 20)
-#fill!(c, (2,2), 77, 17, SmallDot)
-#pstyle = PathStyle(NoEnd, BlackArrow)
-#drawpath!(c, (1,1), 78, Horizontal, pstyle)
-#drawpath!(c, (1,1), 18, Vertical, pstyle)
-#bc = biconnector(Down, LineStyle(), Right, LineStyle())
-#drawconnector!(c, (1,1), bc)
-#drawchar!(c, (1,20), 'Y', PrintStyle())
-#drawchar!(c, (80,1), 'X', PrintStyle())
 """
     Canvas(width, height; [bgchar = ' '], [defstyle = PrintStyle()])
 

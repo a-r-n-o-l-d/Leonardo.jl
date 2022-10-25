@@ -77,6 +77,10 @@ function drawboxtext!(canvas, P, text, ::Type{O}, ::Type{B} = BoxStyle(),
     _drawtextlines!(canvas, P, lines, O, prstyle)
 end
 
+############################################################################################
+#                                   INTERNAL FUNCTIONS                                     #
+############################################################################################
+
 function _drawtextlines!(canvas, P, lines, ::Type{O}, prstyle) where O
     for l in lines
         xr, yr = _line_cart_idx(O, P, length(l))
