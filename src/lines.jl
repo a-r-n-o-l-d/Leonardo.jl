@@ -1,3 +1,6 @@
+"""
+    LineStyle()
+"""
 struct LineStyle{S,T} end
 
 LineStyle(::Type{S}, ::Type{T}) where {S,T} = LineStyle{S,T}

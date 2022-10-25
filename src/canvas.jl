@@ -32,7 +32,7 @@ const DEFAULT_PRSTYLE = PrintStyle()
     Canvas(width, height; [bgchar = ' '], [defstyle = PrintStyle()])
 
 Define a drawing area of size `width`x`height`, where width (resp. height) is the number of
-charcters along the X (resp. Y) axis. `bgchar` is the background character by default it is
+characters along the X (resp. Y) axis. `bgchar` is the background character by default it is
 a space. `defstyle` is the default `PrintStyle` used to print this `Canvas`.
 The origin of coordinate system is the upper left character:
 ```julia-repl

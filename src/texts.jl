@@ -9,7 +9,11 @@ either `Horizontal` or `Vertical`. `prstyle` defines the print style for REPL re
 ```julia-repl
 julia> c = Canvas(80, 15);
 
-julia> drawtext!(c, (5,10), "So Long,\nand Thanks for All the Fish", Horizontal);
+julia> title = \"\"\"
+       So Long,
+       and Thanks for All the Fish\"\"\";
+
+julia> drawtext!(c, (5,10), title, Horizontal);
 
 julia> ps = PrintStyle(color = :red, blink = true);
 
@@ -53,17 +57,19 @@ See also [`drawtext!`](@ref) and [`BoxStyle`](@ref).
 ```julia-repl
 julia> c = Canvas(80, 8);
 
-julia> bs = BoxStyle(LineStyle(Heavy))
-BoxStyle{LineStyle{Heavy, Solid}, LineStyle{Light, Solid}, LineStyle{Heavy, Solid}, LineStyle{Light, Solid}}
+julia> bs = BoxStyle(LineStyle(Heavy));
 
-julia> drawboxtext!(c, (5,5), "The Hitchhiker's Guide\nto the Galaxy", Horizontal, bs)
+julia> h2g2 = \"\"\"The Hitchhiker's Guide
+       to the Galaxy\"\"\";
+
+julia> drawboxtext!(c, (5,5), h2g2, Horizontal, bs)
 
 
 
-   ┎──────────────────────┒
-   ┃The Hitchhiker's Guide┃
-   ┃to the Galaxy         ┃
-   ┖──────────────────────┚
+   ┎───────────────────────┒
+   ┃The Hitchhiker's Guide ┃
+   ┃to the Galaxy          ┃
+   ┖───────────────────────┚
 
 
 
