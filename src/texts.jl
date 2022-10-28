@@ -75,7 +75,7 @@ julia> drawtextbox!(c, (5,5), h2g2, Horizontal, bs)
 
 ```
 """
-function drawboxtext!(canvas, P, text, ::Type{O} = Horizontal, ::Type{B} = BoxStyle(),
+function drawtextbox!(canvas, P, text, ::Type{O} = Horizontal, ::Type{B} = BoxStyle(),
                     prstyle = defstyle(canvas)) where {O,B}
     lines = split(text, '\n')
     Pt, w, h = _boxtext(P, lines, O)

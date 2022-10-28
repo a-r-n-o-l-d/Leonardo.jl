@@ -9,7 +9,7 @@ export NoLine, Light, Heavy, Double, Solid, Dashed1, Dashed2, Dashed3, Half1, Ha
        SmallDot, PrintStyle, Canvas, reset!, drawchar!, fill!, LineStyle, drawline!,
        ConnectorStyle, drawconnector!, biconnector, triconnector, quadriconnector, EndStyle,
        drawend!, PathStyle, drawpath!, BoxStyle, drawbox!, HBoxStyle, drawhbox!, drawtext!,
-       drawboxtext!
+       drawtextbox!
 
 include("drawingtypes.jl")
 include("charset.jl")
