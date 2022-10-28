@@ -513,17 +513,50 @@ res = """
 """
 test_canvas_output(c, res)
 
+Ps = [(10, 4), (10, 9), (15, 10), (2, 7), (19, 1), (16, 10), (18, 9)]
+reset!(c)
+drawpath!(c, Ps, Vertical, PathStyle(Bar, BlackArrow))
+res = """
+.┌────────────────┐.
+.│................│.
+.│................│.
+.│.......┬........│.
+.│.......│........│.
+.│.......│........│.
+.└────────────┐...│.
+.........│....│...│.
+.........│....│┌─▸│.
+.........└────┘└──┘.
+"""
+test_canvas_output(c, res)
+
+Ps = [(3, 7), (2, 9), (6, 8), (15, 9), (11, 5), (13, 4), (6, 7)]
+reset!(c)
+drawpath!(c, Ps, Vertical, PathStyle(Bar, BlackArrow))
+res = """
+....................
+....................
+....................
+.....┌──────┐.......
+.....│....┌─┘.......
+.....│....│.........
+.┌┤..▾....│.........
+.│...┌────│───┐.....
+.└───┘....└───┘.....
+....................
+"""
+test_canvas_output(c, res)
 
 
 function foo()
-    Ps = [(rand(1:20), rand(1:10)), (rand(1:20), rand(1:10)), (rand(1:20), rand(1:10)), (rand(1:20), rand(1:10))]
+    Ps = [(rand(1:20), rand(1:10)), (rand(1:20), rand(1:10)), (rand(1:20), rand(1:10)), (rand(1:20), rand(1:10)), (rand(1:20), rand(1:10)), (rand(1:20), rand(1:10)), (rand(1:20), rand(1:10))]
     println(Ps)
     reset!(c)
     drawpath!(c, Ps, Vertical, PathStyle(Bar, BlackArrow))
 end
 
 function bar()
-    Ps = [(rand(1:20), rand(1:10)), (rand(1:20), rand(1:10)), (rand(1:20), rand(1:10)), (rand(1:20), rand(1:10))]
+    Ps = [(rand(1:20), rand(1:10)), (rand(1:20), rand(1:10)), (rand(1:20), rand(1:10)), (rand(1:20), rand(1:10)), (rand(1:20), rand(1:10)), (rand(1:20), rand(1:10)), (rand(1:20), rand(1:10))]
     println(Ps)
     reset!(c)
     drawpath!(c, Ps, Horizontal, PathStyle(Bar, BlackArrow))
