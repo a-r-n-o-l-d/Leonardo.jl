@@ -410,12 +410,15 @@ function _connect!(canvas, P1, P2, P3, ::Type{Horizontal}, lstyle1, lstyle2, prs
         end
     else
         if x3 < x2
+            #println("case 1")
             conn = biconnector(Right, lstyle1, Left, lstyle2)
             drawconnector!(canvas, P2, conn, prstyle)
         elseif x3 > x2
+            #println("case 2")
             conn = biconnector(Left, lstyle1, Right, lstyle2)
             drawconnector!(canvas, P2, conn, prstyle)
         else
+            #println("case 3")
             if y2 < y3
                 conn = biconnector(Down, lstyle1, Right, lstyle2)
                 drawconnector!(canvas, P2, conn, prstyle)
