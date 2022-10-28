@@ -122,9 +122,9 @@ function PathStyle(::Type{L}, ::Type{E}) where {L<:LineStyle,E<:AbstractEnd}
     PathStyle(L, L, E, E)
 end
 
-#=
+
 PathStyle() = PathStyle(LineStyle(), LineStyle(), NoEnd, NoEnd)
-=#
+
 
 function drawpath!(canvas, P1::Tuple, P2::Tuple, ::Type{Vertical},
                    pstyle::Type{PathStyle{L1,L2,E1,E2}},
@@ -259,14 +259,14 @@ end
 function drawpath!(canvas, P::Tuple, length::Int, lori::Type{Vertical},
                    pstyle, prstyle = defstyle(canvas))
     x1, y1 = P
-    y2 = y1 + length
+    y2 = y1 + length - 1
     drawpath!(canvas, P, (x1, y2), lori, pstyle, prstyle)
 end
 
 function drawpath!(canvas, P::Tuple, length::Int, lori::Type{Horizontal},
                    pstyle, prstyle = defstyle(canvas))
     x1, y1 = P
-    x2 = x1 + length
+    x2 = x1 + length - 1
     drawpath!(canvas, P, (x2, y1), lori, pstyle, prstyle)
 end
 
