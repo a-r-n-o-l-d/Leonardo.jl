@@ -6,6 +6,10 @@
 [![Coverage](https://codecov.io/gh/a-r-n-o-l-d/Leonardo.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/a-r-n-o-l-d/Leonardo.jl)
 [![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 
+Embellish your docstrings with schematics an diagrams.
+
+## Example: draw a U-Net architecture
+
 ```julia
 c = Canvas(80, 21);
 
@@ -36,6 +40,7 @@ drawchar!(c, (64, 12), Lozenge)
 drawchar!(c, (53, 18), Lozenge)
 ```
 
+Output:
 ```
 ┌─────────┐                                                          ┌─────────┐
 │Encoder 1│                                                          │Decoder 1│

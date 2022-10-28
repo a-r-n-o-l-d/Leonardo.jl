@@ -1,11 +1,13 @@
-"""
-    LineStyle()
-"""
 struct LineStyle{S,T} end
 
-LineStyle(::Type{S}, ::Type{T}) where {S,T} = LineStyle{S,T}
+"""
+    LineStyle(lsize, ltype)
 
-LineStyle() = LineStyle(Light, Solid)
+Create a `LineStyle` type
+"""
+LineStyle(::Type{S} = Light, ::Type{T} = Solid) where {S,T} = LineStyle{S,T}
+
+#LineStyle() = LineStyle(Light, Solid)
 
 LineStyle(::Type{S}) where S<:AbstractLineSize = LineStyle(S, Solid)
 

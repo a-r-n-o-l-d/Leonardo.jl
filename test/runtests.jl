@@ -17,6 +17,13 @@ const LDIRS = (Left, Up, Right, Down)
 
 const CANVAS = Canvas(80, 20)
 
+function test_canvas_output(canvas, expected)
+    io = IOBuffer()
+    print(io, canvas)
+    cs = String(take!(io))
+    @test cs == expected
+end
+
 @testset verbose = true "Leonardo.jl" begin
     @testset verbose = true "Code quality" begin
         @testset verbose = true "Aqua" begin

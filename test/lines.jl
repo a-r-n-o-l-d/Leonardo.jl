@@ -5,6 +5,28 @@ for lori in (Horizontal, Vertical)
         lstyle = LineStyle(lsize, ltype)
         @test_call drawline!(CANVAS, (1,1), 10, lori, lstyle)
         @test_opt drawline!(CANVAS, (1,1), 10, lori, lstyle)
-        #@test_opt Leonardo.drawline2!(CANVAS, (1,1), 10, lori = lori, lstyle = lstyle)
     end
 end
+
+c = Canvas(10, 1)
+drawline!(c, (1, 1), 10, Horizontal)
+res = """
+──────────
+"""
+test_canvas_output(c, res)
+
+c = Canvas(1, 10)
+drawline!(c, (1, 1), 10, Vertical)
+res = """
+│
+│
+│
+│
+│
+│
+│
+│
+│
+│
+"""
+test_canvas_output(c, res)
