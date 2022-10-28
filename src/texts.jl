@@ -1,5 +1,5 @@
 """
-    drawtext!(canvas, (x,y), text, ori, [prstyle = defstyle(canvas)])
+    drawtext!(canvas, (x,y), text, ori = Horizontal, prstyle = defstyle(canvas))
 
 Draw a string `text` string at location `(x,y)`. `ori` indicates the text orientation,
 either `Horizontal` or `Vertical`. `prstyle` defines the print style for REPL rendering.
@@ -39,14 +39,15 @@ julia> c
 
 ```
 """
-function drawtext!(canvas, P, text, ::Type{O}, prstyle = defstyle(canvas)) where O
+function drawtext!(canvas, P, text, ::Type{O} = Horizontal, prstyle = defstyle(canvas)) where O
     lines = split(text, '\n')
     _drawtextlines!(canvas, P, lines, O, prstyle)
 end
 
 """
 
-drawboxtext!(canvas, (x,y), text, ori, bstyle, [prstyle = defstyle(canvas)])
+drawtextbox!(canvas, (x,y), text, ori = Horizontal, bstyle = BoxStyle(),
+             prstyle = defstyle(canvas))
 
 Similar to [`drawtext!`], but with a bounding box defined by the boxstyle `bstyle`.
 
@@ -62,25 +63,24 @@ julia> bs = BoxStyle(LineStyle(Heavy));
 julia> h2g2 = \"\"\"The Hitchhiker's Guide
        to the Galaxy\"\"\";
 
-julia> drawboxtext!(c, (5,5), h2g2, Horizontal, bs)
+julia> drawtextbox!(c, (5,5), h2g2, Horizontal, bs)
 
 
 
-   ┎───────────────────────┒
-   ┃The Hitchhiker's Guide ┃
-   ┃to the Galaxy          ┃
-   ┖───────────────────────┚
 
-
+    ┎──────────────────────┒
+    ┃The Hitchhiker's Guide┃
+    ┃to the Galaxy         ┃
+    ┖──────────────────────┚
 
 ```
 """
-function drawboxtext!(canvas, P, text, ::Type{O}, ::Type{B} = BoxStyle(),
+function drawboxtext!(canvas, P, text, ::Type{O} = Horizontal, ::Type{B} = BoxStyle(),
                     prstyle = defstyle(canvas)) where {O,B}
     lines = split(text, '\n')
-    Pb, w, h = _boxtext(P, lines, O)
-    drawbox!(canvas, Pb, w, h, B, prstyle)
-    _drawtextlines!(canvas, P, lines, O, prstyle)
+    Pt, w, h = _boxtext(P, lines, O)
+    drawbox!(canvas, P, w, h, B, prstyle)
+    _drawtextlines!(canvas, Pt, lines, O, prstyle)
 end
 
 ############################################################################################
@@ -112,12 +112,12 @@ function _boxtext(P, lines, ::Type{Horizontal})
     w = maximum(length.(lines)) + 2
     h = length(lines) + 2
     x, y = P
-    (x - 1, y - 1), w, h
+    (x + 1, y + 1), w, h
 end
 
 function _boxtext(P, lines, ::Type{Vertical})
     w = length(lines) + 2
     h = maximum(length.(lines)) + 2
     x, y = P
-    (x - 1, y - 1), w, h
+    (x + 1, y + 1), w, h
 end

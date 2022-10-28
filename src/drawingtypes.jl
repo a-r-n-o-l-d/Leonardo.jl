@@ -256,7 +256,7 @@ struct Bar <: AbstractEnd end
 Abstract type defining a free character, i.e. a character without any surrounding
 informations (no line size, no direction).
 """
-abstract type AbstractFreeChar end
+abstract type AbstractFreeChar <: AbstractEnd end
 
 """
 Type defining a black rectangle character.

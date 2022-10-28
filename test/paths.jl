@@ -1,14 +1,14 @@
 for ldir in LDIRS, lsize in LSIZES
     @test_call drawend!(c, (5,5), EndStyle(NoEnd, ldir, LineStyle(lsize)))
     @test_opt drawend!(c, (5,5), EndStyle(NoEnd, ldir, LineStyle(lsize)))
-    @test_call drawend!(c, (5,5), EndStyle(ldir, LineStyle(lsize)))
-    @test_opt drawend!(c, (5,5), EndStyle(ldir, LineStyle(lsize)))
+    #@test_call drawend!(c, (5,5), EndStyle(ldir, LineStyle(lsize)))
+    #@test_opt drawend!(c, (5,5), EndStyle(ldir, LineStyle(lsize)))
 end
 for lend in ARROWS, ldir in LDIRS
     @test_call drawend!(c, (5,5), EndStyle(lend, ldir, LineStyle()))
     @test_opt drawend!(c, (5,5), EndStyle(lend, ldir, LineStyle()))
-    @test_call drawend!(c, (5,5), EndStyle(lend, ldir))
-    @test_opt drawend!(c, (5,5), EndStyle(lend, ldir))
+    #@test_call drawend!(c, (5,5), EndStyle(lend, ldir))
+    #@test_opt drawend!(c, (5,5), EndStyle(lend, ldir))
 end
 for ldir in LDIRS, lsize in LSIZES
     @test_call drawend!(c, (5,5), EndStyle(Bar, ldir, LineStyle(lsize)))
@@ -17,8 +17,8 @@ end
 for fchar in FREECHARS
     @test_call drawend!(c, (5,5), EndStyle(fchar, NoDirection, LineStyle()))
     @test_opt drawend!(c, (5,5), EndStyle(fchar, NoDirection, LineStyle()))
-    @test_call drawend!(c, (5,5), EndStyle(fchar))
-    @test_opt drawend!(c, (5,5), EndStyle(fchar))
+    #@test_call drawend!(c, (5,5), EndStyle(fchar))
+    #@test_opt drawend!(c, (5,5), EndStyle(fchar))
 end
 
 paths = (

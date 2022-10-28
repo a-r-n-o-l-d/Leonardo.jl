@@ -5,5 +5,6 @@ for lori in (Horizontal, Vertical)
         lstyle = LineStyle(lsize, ltype)
         @test_call drawline!(CANVAS, (1,1), 10, lori, lstyle)
         @test_opt drawline!(CANVAS, (1,1), 10, lori, lstyle)
+        #@test_opt Leonardo.drawline2!(CANVAS, (1,1), 10, lori = lori, lstyle = lstyle)
     end
 end
