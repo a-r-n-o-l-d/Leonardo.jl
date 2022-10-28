@@ -6,7 +6,7 @@
 [![Coverage](https://codecov.io/gh/a-r-n-o-l-d/Leonardo.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/a-r-n-o-l-d/Leonardo.jl)
 [![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 
-Embellish your docstrings with schematics an diagrams.
+Embellish your docstrings with schematics and diagrams.
 
 ## Example: draw a U-Net architecture
 
