@@ -137,7 +137,7 @@ function drawpath!(canvas, P1::Tuple, P2::Tuple, ::Type{Vertical},
         drawpath!(canvas, P1, P2, Horizontal, pstyle, prstyle)
     elseif Δx == 0
         if Δy < 0
-            l1 = (Δy + 2) ÷ 2
+            l1 = (Δy + 2) ÷ 2 # To do: handle the case if l1 == -1
             l2 = (Δy + 2) - l1
             yi = y1 + l1 - 1
             drawline!(canvas, (x1, y1 - 1), l1, Vertical, L1, prstyle)
@@ -147,7 +147,7 @@ function drawpath!(canvas, P1::Tuple, P2::Tuple, ::Type{Vertical},
             conn = biconnector(Down, L1, Up, L2)
             drawconnector!(canvas, (x1, yi), conn, prstyle)
         else
-            l1 = (Δy - 2) ÷ 2
+            l1 = (Δy - 2) ÷ 2 # To do: handle the case if l1 == 1
             l2 = (Δy - 2) - l1
             yi = y1 + l1 + 1
             drawline!(canvas, (x1, y1 + 1), l1, Vertical, L1, prstyle)
@@ -270,12 +270,12 @@ function drawpath!(canvas, P::Tuple, length::Int, lori::Type{Horizontal},
     drawpath!(canvas, P, (x2, y1), lori, pstyle, prstyle)
 end
 
-function drawpath!(canvas, Ps::Vector, lori::Type{O}, pstyle::Type{PathStyle{L1,L2,E1,E2}},
+function drawpath!(canvas, Ps::Vector, ::Type{O}, pstyle::Type{PathStyle{L1,L2,E1,E2}},
                    prstyle = defstyle(canvas)) where {O,L1,L2,E1,E2}
     if length(Ps) < 2
-        error()
+        error("Drawing a path requires at least two points.")
     elseif length(Ps) == 2
-        drawpath!(canvas, Ps..., lori, pstyle, prstyle)
+        drawpath!(canvas, Ps..., O, pstyle, prstyle)
     else
         n = length(Ps) - 1
         for i in 1:n
@@ -286,9 +286,9 @@ function drawpath!(canvas, Ps::Vector, lori::Type{O}, pstyle::Type{PathStyle{L1,
             else
                 ps = PathStyle(L1, L2, NoEnd, NoEnd)
             end
-            drawpath!(canvas, Ps[i], Ps[i + 1], lori, ps, prstyle)
+            drawpath!(canvas, Ps[i], Ps[i + 1], O, ps, prstyle)
             if i > 1
-                _connect!(canvas, Ps[i - 1], Ps[i], Ps[i + 1], lori, L1, L2, prstyle)
+                _connect!(canvas, Ps[i - 1], Ps[i], Ps[i + 1], O, L1, L2, prstyle)
             end
         end
     end
@@ -374,9 +374,9 @@ function _connect!(canvas, P1, P2, P3, ::Type{Vertical}, lstyle1, lstyle2, prsty
             elseif x2 > x3
                 conn = biconnector(Left, lstyle1, Down, lstyle2)
                 drawconnector!(canvas, P2, conn, prstyle)
-            else
-                conn = biconnector(Right, lstyle1, Up, lstyle2)
-                drawconnector!(canvas, P2, conn, prstyle)
+            #else
+            #    conn = biconnector(Right, lstyle1, Up, lstyle2)
+            #    drawconnector!(canvas, P2, conn, prstyle)
             end
         end
     end
@@ -410,24 +410,21 @@ function _connect!(canvas, P1, P2, P3, ::Type{Horizontal}, lstyle1, lstyle2, prs
         end
     else
         if x3 < x2
-            #println("case 1")
             conn = biconnector(Right, lstyle1, Left, lstyle2)
             drawconnector!(canvas, P2, conn, prstyle)
         elseif x3 > x2
-            #println("case 2")
             conn = biconnector(Left, lstyle1, Right, lstyle2)
             drawconnector!(canvas, P2, conn, prstyle)
         else
-            #println("case 3")
             if y2 < y3
-                conn = biconnector(Down, lstyle1, Right, lstyle2)
-                drawconnector!(canvas, P2, conn, prstyle)
-            elseif y2 > y3
-                conn = biconnector(Up, lstyle1, Right, lstyle2)
-                drawconnector!(canvas, P2, conn, prstyle)
-            else
                 conn = biconnector(Down, lstyle1, Left, lstyle2)
                 drawconnector!(canvas, P2, conn, prstyle)
+            elseif y2 > y3
+                conn = biconnector(Up, lstyle1, Left, lstyle2)
+                drawconnector!(canvas, P2, conn, prstyle)
+            #else P2 = P3 => not possible
+            #    conn = biconnector(Down, lstyle1, Left, lstyle2)
+            #    drawconnector!(canvas, P2, conn, prstyle)
             end
         end
     end
