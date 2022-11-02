@@ -15,7 +15,8 @@ const LENDS = (Bar, ARROWS..., FREECHARS...)
 
 const LDIRS = (Left, Up, Right, Down)
 
-const CANVAS = Canvas(80, 20)
+const CANVAS1 = Canvas(80, 20; bgchar = '.')
+const CANVAS2 = Canvas(20, 10; bgchar = '.')
 
 function test_canvas_output(canvas, expected)
     io = IOBuffer()

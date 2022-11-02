@@ -23,6 +23,7 @@ function drawline!(canvas, P, length, ::Type{O}, ::Type{LineStyle{S,T}} = LineSt
     canvas
 end
 
+#=
 function drawline2!(canvas, P, length; lori = Horizontal , lstyle, # ::Type{LineStyle{S,T}} = LineStyle() ::Type{O}
                    prstyle = defstyle(canvas)) #where {O} #,S,T}
     xr, yr = _line_cart_idx(lori, P, length)
@@ -32,6 +33,7 @@ function drawline2!(canvas, P, length; lori = Horizontal , lstyle, # ::Type{Line
     end
     canvas
 end
+=#
 
 ############################################################################################
 #                                   INTERNAL FUNCTIONS                                     #

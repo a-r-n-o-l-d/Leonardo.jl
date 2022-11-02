@@ -8,7 +8,7 @@ export NoLine, Light, Heavy, Double, Solid, Dashed1, Dashed2, Dashed3, Half1, Ha
        BlackArrow, WhiteArrow, Bar, BlackRectangle, WhiteRectangle, Lozenge, LargeDot,
        SmallDot, PrintStyle, Canvas, reset!, drawchar!, fill!, LineStyle, drawline!,
        ConnectorStyle, drawconnector!, biconnector, triconnector, quadriconnector, EndStyle,
-       drawend!, PathStyle, drawpath!, BoxStyle, drawbox!, HBoxStyle, drawhbox!, drawtext!,
+       drawend!, PathStyle, drawpath!, BoxStyle, drawbox!, drawtext!, #HBoxStyle, drawhbox!,
        drawtextbox!
 
 include("drawingtypes.jl")

@@ -30,6 +30,7 @@ function drawbox!(canvas, P, width, height, ::Type{BoxStyle{L,U,R,D}} = BoxStyle
     drawline!(canvas, (x2 + 1, y2), w, Horizontal, D, prstyle)
 end
 
+#=
 struct HBoxStyle{H,B} end # H => BoxStyle for header, B => LineStyle for Box, ou bien HH et HV, BH, BV
 
 HBoxStyle(::Type{H}, ::Type{B}) where {H,B} = HBoxStyle{H,B}
@@ -47,3 +48,4 @@ function drawhbox!(canvas, P, width, height, hheight, ::Type{HBoxStyle{H,B}},
 end
 #hb = HBoxStyle(BoxStyle(LineStyle(Double)), LineStyle(light))
 #drawhbox!(c, (1,1), 10, 10, 5, hb)
+=#

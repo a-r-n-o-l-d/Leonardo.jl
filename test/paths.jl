@@ -1,26 +1,26 @@
 for ldir in LDIRS, lsize in LSIZES
     es = EndStyle(NoEnd, ldir, LineStyle(lsize))
-    @test_call drawend!(CANVAS, (5, 5), es)
-    @test_opt drawend!(CANVAS, (5, 5), es)
+    @test_call drawend!(CANVAS1, (5, 5), es)
+    @test_opt drawend!(CANVAS1, (5, 5), es)
     #@test_call drawend!(c, (5,5), EndStyle(ldir, LineStyle(lsize)))
     #@test_opt drawend!(c, (5,5), EndStyle(ldir, LineStyle(lsize)))
 end
 for lend in ARROWS, ldir in LDIRS
     es = EndStyle(lend, ldir, LineStyle())
-    @test_call drawend!(CANVAS, (5, 5), es)
-    @test_opt drawend!(CANVAS, (5, 5), es)
+    @test_call drawend!(CANVAS1, (5, 5), es)
+    @test_opt drawend!(CANVAS1, (5, 5), es)
     #@test_call drawend!(c, (5,5), EndStyle(lend, ldir))
     #@test_opt drawend!(c, (5,5), EndStyle(lend, ldir))
 end
 for ldir in LDIRS, lsize in LSIZES
     es = EndStyle(Bar, ldir, LineStyle(lsize))
-    @test_call drawend!(CANVAS, (5, 5), es)
-    @test_opt drawend!(CANVAS, (5, 5), es)
+    @test_call drawend!(CANVAS1, (5, 5), es)
+    @test_opt drawend!(CANVAS1, (5, 5), es)
 end
 for fchar in FREECHARS
     es = EndStyle(fchar, NoDirection, LineStyle())
-    @test_call drawend!(CANVAS, (5, 5), es)
-    @test_opt drawend!(CANVAS, (5, 5), es)
+    @test_call drawend!(CANVAS1, (5, 5), es)
+    @test_opt drawend!(CANVAS1, (5, 5), es)
     #@test_call drawend!(c, (5,5), EndStyle(fchar))
     #@test_opt drawend!(c, (5,5), EndStyle(fchar))
 end
@@ -71,12 +71,12 @@ for p in paths
     ltype1, ltype2 = rand(LTYPES), rand(LTYPES)
     lend1, lend2 = rand(LENDS), rand(LENDS)
     pstyle = PathStyle(LineStyle(lsize1, ltype1), LineStyle(lsize2, ltype2), lend1, lend2)
-    @test_call drawpath!(CANVAS, p..., pstyle)
-    @test_opt drawpath!(CANVAS, p..., pstyle)
+    @test_call drawpath!(CANVAS1, p..., pstyle)
+    @test_opt drawpath!(CANVAS1, p..., pstyle)
 end
 
-c = Canvas(20, 10; bgchar = '.')
-drawpath!(c, paths[1]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[1]..., PathStyle(Bar, BlackArrow))
 res = """
 ├───▸...............
 ....................
@@ -89,10 +89,10 @@ res = """
 ....................
 ....................
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[2]..., PathStyle(LineStyle(Heavy), BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[2]..., PathStyle(LineStyle(Heavy), BlackArrow))
 res = """
 ▴...................
 ┃...................
@@ -105,10 +105,10 @@ res = """
 ....................
 ....................
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[3]..., PathStyle(LineStyle(Heavy), BlackRectangle, Lozenge))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[3]..., PathStyle(LineStyle(Heavy), BlackRectangle, Lozenge))
 res = """
 ▮...................
 ┃...................
@@ -121,10 +121,10 @@ res = """
 ....................
 ....................
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[4]..., PathStyle())
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[4]..., PathStyle())
 res = """
 ────┐...............
 ....│...............
@@ -137,10 +137,10 @@ res = """
 ....................
 ....................
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[5]..., PathStyle(LineStyle(Light), LineStyle(Heavy), Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[5]..., PathStyle(LineStyle(Light), LineStyle(Heavy), Bar, BlackArrow))
 res = """
 ┬...................
 │...................
@@ -153,10 +153,10 @@ res = """
 ....................
 ....................
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[6]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[6]..., PathStyle(Bar, BlackArrow))
 res = """
 ┌───▸...............
 │...................
@@ -169,10 +169,10 @@ res = """
 ....................
 ....................
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[7]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[7]..., PathStyle(Bar, BlackArrow))
 res = """
 ....┬...............
 ....│...............
@@ -185,10 +185,10 @@ res = """
 ....................
 ....................
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[8]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[8]..., PathStyle(Bar, BlackArrow))
 res = """
 ┬...................
 │...................
@@ -201,10 +201,10 @@ res = """
 ....................
 ....................
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[9]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[9]..., PathStyle(Bar, BlackArrow))
 res = """
 ◂───┤...............
 ....................
@@ -217,10 +217,10 @@ res = """
 ....................
 ....................
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[10]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[10]..., PathStyle(Bar, BlackArrow))
 res = """
 ├───▸...............
 ....................
@@ -233,10 +233,10 @@ res = """
 ....................
 ....................
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[11]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[11]..., PathStyle(Bar, BlackArrow))
 res = """
 ▴...................
 │...................
@@ -249,10 +249,10 @@ res = """
 ....................
 ....................
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[12]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[12]..., PathStyle(Bar, BlackArrow))
 res = """
 ├───┐...............
 ....│...............
@@ -265,10 +265,10 @@ res = """
 ....................
 ....................
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[13]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[13]..., PathStyle(Bar, BlackArrow))
 res = """
 ....▴...............
 ....│...............
@@ -281,10 +281,10 @@ res = """
 ....................
 ....................
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[14]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[14]..., PathStyle(Bar, BlackArrow))
 res = """
 ┌───┤...............
 │...................
@@ -297,10 +297,10 @@ res = """
 ....................
 ....................
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[15]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[15]..., PathStyle(Bar, BlackArrow))
 res = """
 ┬...................
 │...................
@@ -313,10 +313,10 @@ res = """
 │...................
 ▾...................
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[16]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[16]..., PathStyle(Bar, BlackArrow))
 res = """
 ├────────▸..........
 ....................
@@ -329,10 +329,10 @@ res = """
 ....................
 ....................
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[17]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[17]..., PathStyle(Bar, BlackArrow))
 res = """
 ┬...................
 │...................
@@ -345,10 +345,10 @@ res = """
 ....│..│............
 ....└──┘............
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[18]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[18]..., PathStyle(Bar, BlackArrow))
 res = """
 ....................
 ....................
@@ -361,10 +361,10 @@ res = """
 .........│..........
 .........┴..........
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[19]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[19]..., PathStyle(Bar, BlackArrow))
 res = """
 ....................
 ....................
@@ -377,10 +377,10 @@ res = """
 .........│..........
 .........┴..........
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[20]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[20]..., PathStyle(Bar, BlackArrow))
 res = """
 ....┬...............
 ....│...............
@@ -393,10 +393,10 @@ res = """
 │...................
 └──────▸............
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[21]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[21]..., PathStyle(Bar, BlackArrow))
 res = """
 ....┬...............
 ....│...............
@@ -409,10 +409,10 @@ res = """
 │...│...............
 └───┘...............
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[22]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[22]..., PathStyle(Bar, BlackArrow))
 res = """
 ....┬...............
 ....│...............
@@ -425,10 +425,10 @@ res = """
 ....................
 ....................
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[23]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[23]..., PathStyle(Bar, BlackArrow))
 res = """
 ┬...................
 │...................
@@ -441,10 +441,10 @@ res = """
 │...................
 └──────▸............
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[24]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[24]..., PathStyle(Bar, BlackArrow))
 res = """
 .......◂─┐..........
 .........│..........
@@ -457,10 +457,10 @@ res = """
 .........│..........
 .........│..........
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[25]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[25]..., PathStyle(Bar, BlackArrow))
 res = """
 .........┬..........
 .........│..........
@@ -473,11 +473,11 @@ res = """
 .........│..........
 .......◂─┘..........
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
 
-reset!(c)
-drawpath!(c, paths[26]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[26]..., PathStyle(Bar, BlackArrow))
 res = """
 ├───┐...............
 ....│...............
@@ -490,10 +490,10 @@ res = """
 .......│...│........
 .......└───┘........
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[27]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[27]..., PathStyle(Bar, BlackArrow))
 res = """
 ....................
 ....................
@@ -506,10 +506,10 @@ res = """
 .........│..........
 .........┴..........
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[28]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[28]..., PathStyle(Bar, BlackArrow))
 res = """
 ....................
 ....................
@@ -522,10 +522,10 @@ res = """
 .........│..........
 .........┴..........
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[29]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[29]..., PathStyle(Bar, BlackArrow))
 res = """
 ...................│
 ...................│
@@ -538,10 +538,10 @@ res = """
 ....................
 ....................
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[30]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[30]..., PathStyle(Bar, BlackArrow))
 res = """
 ├──────────────────┐
 ...................│
@@ -554,10 +554,10 @@ res = """
 .........│.........│
 .........└─────────┘
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[31]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[31]..., PathStyle(Bar, BlackArrow))
 res = """
 ├──────────────────┐
 ...................│
@@ -570,10 +570,10 @@ res = """
 ...................│
 ...................│
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[32]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[32]..., PathStyle(Bar, BlackArrow))
 res = """
 ├────────┌──────────
 .........│..........
@@ -586,10 +586,10 @@ res = """
 ....................
 ....................
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[33]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[33]..., PathStyle(Bar, BlackArrow))
 res = """
 ├──────────────────┐
 ...................│
@@ -602,10 +602,10 @@ res = """
 ....................
 ....................
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[34]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[34]..., PathStyle(Bar, BlackArrow))
 res = """
 ├──────────────────┐
 ...................│
@@ -618,10 +618,10 @@ res = """
 ....................
 ....................
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[35]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[35]..., PathStyle(Bar, BlackArrow))
 res = """
 ...................▴
 ...................│
@@ -634,10 +634,10 @@ res = """
 ....................
 ....................
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[36]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[36]..., PathStyle(Bar, BlackArrow))
 res = """
 .........┬..........
 .........│..........
@@ -650,10 +650,10 @@ res = """
 ....................
 ....................
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-reset!(c)
-drawpath!(c, paths[37]..., PathStyle(Bar, BlackArrow))
+reset!(CANVAS2)
+drawpath!(CANVAS2, paths[37]..., PathStyle(Bar, BlackArrow))
 res = """
 ....................
 ....................
@@ -666,6 +666,6 @@ res = """
 ....................
 ....................
 """
-test_canvas_output(c, res)
+test_canvas_output(CANVAS2, res)
 
-@test_throws ErrorException drawpath!(c, paths[38]..., PathStyle(Bar, BlackArrow))
+@test_throws ErrorException drawpath!(CANVAS2, paths[38]..., PathStyle(Bar, BlackArrow))
