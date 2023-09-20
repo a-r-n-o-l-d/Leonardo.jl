@@ -122,14 +122,14 @@ function reset!(canvas)
     canvas
 end
 
-function Base.fill!(canvas, char, prstyle = defstyle(canvas))
+function Base.fill!(canvas::Canvas, char, prstyle = defstyle(canvas))
     for (y, x) in coordinates(canvas) #y in 1:canvas.height, x in 1:canvas.width #OneTo(canvas.height)
         drawchar!(canvas::Canvas, (x,y), char, prstyle)
     end
     canvas
 end
 
-function Base.fill!(canvas, P, width, height, char, prstyle = defstyle(canvas))
+function Base.fill!(canvas::Canvas, P, width, height, char, prstyle = defstyle(canvas))
     for (y, x) in coordinates(P, width, height) #y in y1:height, x in x1:width #OneTo(canvas.height)
         drawchar!(canvas::Canvas, (x,y), char, prstyle)
     end
