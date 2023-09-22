@@ -169,10 +169,10 @@ function _defcstyle()
     :(ConnectorStyle($nl, $nl, $nl, $nl))
 end
 
-function _defbcstyle(style)
-    nl = :(LineStyle(NoLine))
-    :($style{$nl,$nl,$nl,$nl})
-end
+#function _defbcstyle(style)
+#    nl = :(LineStyle(NoLine))
+#    :($style{$nl,$nl,$nl,$nl})
+#end
 
 ############################################################################################
 #                                  AUTOMATIC GENERATION                                    #
