@@ -31,7 +31,9 @@ end
         @testset verbose = true "Aqua" begin
             Aqua.test_all(Leonardo)
         end
-        #report_package("Leonardo")
+        @testset verbose = true "JET" begin
+            JET.test_package(Leonardo; target_defined_modules=true)
+        end
     end
 
     @testset verbose = true "charset" begin
