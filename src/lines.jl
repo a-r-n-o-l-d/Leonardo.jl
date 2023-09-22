@@ -7,8 +7,6 @@ Create a `LineStyle` type
 """
 LineStyle(::Type{S} = Light, ::Type{T} = Solid) where {S,T} = LineStyle{S,T}
 
-#LineStyle() = LineStyle(Light, Solid)
-
 LineStyle(::Type{S}) where S<:AbstractLineSize = LineStyle(S, Solid)
 
 LineStyle(::Type{T}) where T<:AbstractLineType = LineStyle(Light, T)
@@ -22,18 +20,6 @@ function drawline!(canvas, P, length, ::Type{O}, ::Type{LineStyle{S,T}} = LineSt
     end
     canvas
 end
-
-#=
-function drawline2!(canvas, P, length; lori = Horizontal , lstyle, # ::Type{LineStyle{S,T}} = LineStyle() ::Type{O}
-                   prstyle = defstyle(canvas)) #where {O} #,S,T}
-    xr, yr = _line_cart_idx(lori, P, length)
-    #c = char(O, S, T)
-    for y in yr, x in xr
-        #drawchar!(canvas, (x, y), c, prstyle)
-    end
-    canvas
-end
-=#
 
 ############################################################################################
 #                                   INTERNAL FUNCTIONS                                     #

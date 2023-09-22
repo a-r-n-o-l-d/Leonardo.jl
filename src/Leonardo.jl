@@ -1,5 +1,4 @@
 # To do:
-# - drawing path between two connected boxes
 # - box with header
 module Leonardo
 

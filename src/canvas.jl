@@ -102,7 +102,8 @@ end
 
 function drawchar!(canvas::Canvas, P, c::Char, prstyle = defstyle(canvas))
     x, y = P
-    0 < x ≤ canvas.width && 0 < y ≤ canvas.height || error("Attempting to draw outside the canvas frame.")
+    0 < x ≤ canvas.width && 0 < y ≤ canvas.height || error(
+        "Attempting to draw outside the canvas frame.")
     @inbounds canvas.chars[x, y] = c
     @inbounds canvas.prstyles[x, y] = prstyle
     canvas
@@ -140,17 +141,7 @@ end
 #                                   INTERNAL FUNCTIONS                                     #
 ############################################################################################
 
-@inline function _empty_chars(width, height)
-    chars = Matrix{Char}(undef, width + 1, height)
-    chars[1:width,1:height] .= BLANK_CHAR
-    chars[width + 1, 1:height] .= '\n'
-    chars
-end
-
-@inline function _empty_pstyles(width, height)
-    fill(DEFAULT_PRSTYLE, width + 1, height)
-end
-
+# Generation of illustration for Canvas docstrings
 function _canvas_doc()
     c = Canvas(80, 20)
     fill!(c, (2,2), 77, 17, SmallDot)

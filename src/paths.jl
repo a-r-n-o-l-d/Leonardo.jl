@@ -12,14 +12,6 @@ struct EndStyle{E,D,L} end
 
 EndStyle(::Type{E}, ::Type{D}, ::Type{L}) where {E,D,L} = EndStyle{E,D,L}
 
-#EndStyle(::Type{E}, ::Type{D}) where {E<:AbstractArrow,D} = EndStyle(E, D, LineStyle()) #NoLineStyle
-
-#EndStyle(::Type{E}, ::Type{D}) where {E<:Bar,D} = EndStyle(E, D, LineStyle())
-
-#EndStyle(::Type{D}, ::Type{L}) where {D<:AbstractDirection,L} = EndStyle(NoEnd, D, L)
-
-#EndStyle(::Type{C}) where C<:AbstractFreeChar = EndStyle(C, NoDirection, LineStyle())
-
 """
     drawend!(canvas, (x, y), estyle, prstyle = defstyle(canvas)
 
@@ -122,9 +114,7 @@ function PathStyle(::Type{L}, ::Type{E}) where {L<:LineStyle,E<:AbstractEnd}
     PathStyle(L, L, E, E)
 end
 
-
 PathStyle() = PathStyle(LineStyle(), LineStyle(), NoEnd, NoEnd)
-
 
 function drawpath!(canvas, P1::Tuple, P2::Tuple, ::Type{Vertical},
                    pstyle::Type{PathStyle{L1,L2,E1,E2}},
@@ -294,33 +284,6 @@ function drawpath!(canvas, Ps::Vector, ::Type{O}, pstyle::Type{PathStyle{L1,L2,E
     end
     canvas
 end
-
-#=
-function drawpath!(canvas, P1, width1, height1, ::Type{B1}, ::Type{D1},
-    P2, width2, height2, ::Type{B2}, ::Type{D2}, pstyle) where {B1,D1,B2,D2}
-
-end
-
-function _boxpath(P, width, height, ::Type{B}, ::Type{Left}) where {L,U,R,D,B<:BoxStyle{L,U,R,D}}
-    x, y = P
-    (x, y + height ÷ 2), Horizontal
-end
-
-function _boxpath(P, width, height, ::Type{B}, ::Type{Right}) where {L,U,R,D,B<:BoxStyle{L,U,R,D}}
-    x, y = P
-    (x + width, y + height ÷ 2), Horizontal
-end
-
-function _boxpath(P, width, height, ::Type{B}, ::Type{Up}) where {L,U,R,D,B<:BoxStyle{L,U,R,D}}
-    x, y = P
-    (x + width ÷ 2, y), Vertical
-end
-
-function _boxpath(P, width, height, ::Type{B}, ::Type{Down}) where {L,U,R,D,B<:BoxStyle{L,U,R,D}}
-    x, y = P
-    (x + width ÷ 2, y + height), Vertical
-end
-=#
 
 ############################################################################################
 #                                   INTERNAL FUNCTIONS                                     #
