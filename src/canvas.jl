@@ -116,7 +116,7 @@ function drawchar!(canvas::Canvas, P, c::Type{C},
 end
 
 function reset!(canvas)
-    for (y, x) in coordinates(canvas) #Iterators.product(1:canvas.height, 1:canvas.width) #y in 1:canvas.height, x in 1:canvas.width
+    for (y, x) in coordinates(canvas)
         @inbounds chars(canvas)[x,y] = bgchar(canvas)
         @inbounds prstyles(canvas)[x,y] = defstyle(canvas)
     end
@@ -124,14 +124,14 @@ function reset!(canvas)
 end
 
 function Base.fill!(canvas::Canvas, char, prstyle = defstyle(canvas))
-    for (y, x) in coordinates(canvas) #y in 1:canvas.height, x in 1:canvas.width #OneTo(canvas.height)
+    for (y, x) in coordinates(canvas)
         drawchar!(canvas::Canvas, (x,y), char, prstyle)
     end
     canvas
 end
 
 function Base.fill!(canvas::Canvas, P, width, height, char, prstyle = defstyle(canvas))
-    for (y, x) in coordinates(P, width, height) #y in y1:height, x in x1:width #OneTo(canvas.height)
+    for (y, x) in coordinates(P, width, height)
         drawchar!(canvas::Canvas, (x,y), char, prstyle)
     end
     canvas
